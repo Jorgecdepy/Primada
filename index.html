@@ -202,9 +202,6 @@
             <button id="btn-toggle-admin-guest" class="hidden text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1 rounded-lg hover:bg-blue-50 transition-all">
               Ver como invitado
             </button>
-            <button id="btn-guest-unlock-admin" class="hidden text-xs font-semibold text-blue-600 hover:text-blue-800 px-2.5 py-1 rounded-xl bg-blue-50 hover:bg-blue-100 transition-all flex items-center gap-1" title="Ingresar al Panel de Administrador con contraseña">
-              <span>🔐 Admin</span>
-            </button>
 
             <!-- Logout / Switch User -->
             <button id="btn-logout" class="px-3 py-1 rounded-xl text-xs font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-all" title="Cambiar de usuario">
@@ -6163,13 +6160,11 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       viewLogin.classList.add('hidden');
       appContent.classList.remove('hidden');
 
-      const btnGuestUnlockAdmin = document.getElementById('btn-guest-unlock-admin');
       if (currentUserSession.role === 'admin') {
         userDisplayName.textContent = "Jorge (Admin)";
         userBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200";
         btnToggleAdminGuest.classList.remove('hidden');
         btnToggleAdminGuest.textContent = "Ver como invitado";
-        if (btnGuestUnlockAdmin) btnGuestUnlockAdmin.classList.add('hidden');
 
         viewAdmin.classList.remove('hidden');
         viewGuest.classList.add('hidden');
@@ -6178,7 +6173,6 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         userDisplayName.textContent = currentUserSession.name || "Invitado";
         userBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200";
         btnToggleAdminGuest.classList.add('hidden');
-        if (btnGuestUnlockAdmin) btnGuestUnlockAdmin.classList.remove('hidden');
 
         viewAdmin.classList.add('hidden');
         viewGuest.classList.remove('hidden');
@@ -6231,7 +6225,6 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       });
 
       // Admin Auth Modal Event Listeners
-      document.getElementById('btn-guest-unlock-admin')?.addEventListener('click', openAdminAuthModal);
       document.getElementById('btn-close-modal-admin-auth')?.addEventListener('click', closeAdminAuthModal);
       document.getElementById('btn-cancel-modal-admin-auth')?.addEventListener('click', closeAdminAuthModal);
 

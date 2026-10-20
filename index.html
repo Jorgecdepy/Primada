@@ -121,18 +121,39 @@
             Ingresá tu nombre o apellido:
           </label>
           <div class="relative">
-            <input type="text" id="login-name-input" required autocomplete="name" placeholder="Ej. Jorge Ramírez, Olga Paiva, Denis..." class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all">
+            <input type="text" id="login-name-input" autocomplete="name" placeholder="Ej. Jorge Ramírez, Olga Paiva, Denis..." class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all">
           </div>
-          <p class="text-[11px] text-slate-400 mt-1.5">
-            El sistema detecta automáticamente tu familia y rol sin necesidad de contraseñas.
+          <p class="text-[11px] text-slate-400 mt-1">
+            Detecta tu familia y rol automáticamente sin contraseñas.
           </p>
         </div>
 
+        <button type="submit" id="btn-submit-login" class="w-full py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+          <span>Ingresar por Nombre</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+        </button>
+
+        <!-- Selector Rápido de Familia (Para ingresar en 1 toque) -->
+        <div class="pt-3 border-t border-slate-100 space-y-2">
+          <label for="login-family-select" class="block text-xs font-semibold text-slate-700 flex items-center justify-between">
+            <span>O elegí tu familia directamente:</span>
+            <span class="text-[10px] text-slate-400 font-normal">Acceso en 1 clic</span>
+          </label>
+          <div class="flex items-center gap-2">
+            <select id="login-family-select" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-semibold outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all">
+              <option value="">Seleccionar Familia de la lista...</option>
+            </select>
+            <button type="button" id="btn-login-by-family" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all shrink-0">
+              Entrar →
+            </button>
+          </div>
+        </div>
+
         <!-- Quick Access Suggestions (Chips) -->
-        <div class="space-y-2 pt-1">
-          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Accesos rápidos habituales:</span>
+        <div class="space-y-1.5 pt-2 border-t border-slate-100">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Accesos rápidos habituales:</span>
           <div class="flex flex-wrap gap-1.5" id="login-quick-chips">
-            <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold transition-all flex items-center gap-1" data-name="Jorge Ramírez">
+            <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold transition-all flex items-center gap-1 shadow-sm" data-name="Jorge Ramírez">
               👑 Jorge (Admin 🔒)
             </button>
             <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-all" data-name="Olga Paiva">
@@ -144,6 +165,12 @@
             <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-all" data-name="Rodrigo Ramírez">
               Rodrigo Ramírez
             </button>
+            <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-all" data-name="Angélica Vargas">
+              Angélica Vargas
+            </button>
+            <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-all" data-name="Elías Ferreira">
+              Elías Ferreira
+            </button>
             <button type="button" class="btn-quick-login px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-all" data-name="Elizardo Villalba">
               Elizardo Villalba
             </button>
@@ -152,11 +179,6 @@
             </button>
           </div>
         </div>
-
-        <button type="submit" id="btn-submit-login" class="w-full py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2">
-          Ingresar al Evento
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-        </button>
       </form>
       
     </div>
@@ -247,6 +269,30 @@
               <span id="badge-confirmados-nav" class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">7</span>
             </button>
             <button data-tab="tab-enlaces" class="tab-btn px-3 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Enlaces WhatsApp & SQL</button>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Guest Navigation Tabs (Apple Segmented Bar for Invited Families) -->
+      <div id="guest-tabs-nav" class="hidden border-t border-slate-200/60 bg-white/70">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+          <nav class="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-2 text-xs sm:text-sm font-medium">
+            <button type="button" data-guest-tab="guest-tab-inicio" class="guest-tab-btn px-3.5 py-1.5 rounded-full bg-slate-900 text-white font-semibold transition-all flex items-center gap-1.5 shadow-sm">
+              <span>🏡 Mi Familia</span>
+            </button>
+            <button type="button" data-guest-tab="guest-tab-gastos" class="guest-tab-btn px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+              <span>💰 Detalle de Gastos</span>
+              <span id="badge-guest-gastos-count" class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">0</span>
+            </button>
+            <button type="button" data-guest-tab="guest-tab-quinta" class="guest-tab-btn px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+              <span>📍 La Quinta & GPS</span>
+            </button>
+            <button type="button" data-guest-tab="guest-tab-tarjetas" class="guest-tab-btn px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+              <span>🎨 Tarjetas & Mural</span>
+            </button>
+            <button type="button" data-guest-tab="guest-tab-fotos" class="guest-tab-btn px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+              <span>📸 Álbum de Fotos</span>
+            </button>
           </nav>
         </div>
       </div>
@@ -1598,312 +1644,528 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- VIEW: INVITADO / FAMILIAR                  -->
+      <!-- VIEW: INVITADO / FAMILIAR (REESTRUCTURADO)  -->
       <!-- ========================================== -->
       <div id="view-guest" class="hidden space-y-6">
 
-        <!-- Banner Invitación de Honor para la Familia -->
-        <div class="rounded-3xl bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white p-5 sm:p-6 shadow-apple-float flex flex-col md:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shadow-inner border border-white/25">
-              💌
-            </div>
-            <div>
-              <span class="text-xs font-bold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full text-white border border-white/10">Tarjeta Oficial de Invitación</span>
-              <h3 class="font-extrabold text-lg text-white mt-1">¡Han sido cordialmente invitados a este gran homenaje!</h3>
-              <p class="text-xs text-rose-100">Organizado con amor por todos los nietos para agasajar a la abuela, padres y tíos.</p>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <button type="button" id="btn-guest-open-card-studio-shortcut" class="px-4 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5 shrink-0">
-              <span>🎨 Tarjetas Gráficas (PNG)</span>
-            </button>
-            <button type="button" id="btn-guest-view-invitation" class="px-4 py-2.5 rounded-2xl bg-white text-slate-900 hover:bg-amber-50 font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5 shrink-0">
-              <span>👑 Confirmar Asistencia</span>
-              <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Acciones Especiales de Nieto e Hijo: Homenaje a la Abuela y a los Padres -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <button type="button" id="btn-guest-card-abuela" class="bg-gradient-to-br from-amber-50 to-amber-100/60 hover:from-amber-100 hover:to-amber-200/80 p-4 rounded-3xl border border-amber-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
-              👑
-            </div>
-            <div>
-              <span class="text-xs font-bold text-amber-900 block leading-tight">Tarjeta para la Abuela</span>
-              <span class="text-[11px] text-amber-800/80 mt-0.5 block">Como nieto/a, creá tu tarjeta personal para la abuela y sumala al mural.</span>
-            </div>
-          </button>
-
-          <button type="button" id="btn-guest-card-padres" class="bg-gradient-to-br from-rose-50 to-rose-100/60 hover:from-rose-100 hover:to-rose-200/80 p-4 rounded-3xl border border-rose-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-rose-500 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
-              ❤️
-            </div>
-            <div>
-              <span class="text-xs font-bold text-rose-900 block leading-tight">Tarjeta para Papá y Mamá</span>
-              <span class="text-[11px] text-rose-800/80 mt-0.5 block">Como hijo/a, invitá a tus padres como Invitados de Honor con su tarjeta gráfica.</span>
-            </div>
-          </button>
-
-          <button type="button" id="btn-guest-open-mural" class="bg-gradient-to-br from-purple-50 to-indigo-100/60 hover:from-purple-100 hover:to-indigo-200/80 p-4 rounded-3xl border border-purple-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
-              💐
-            </div>
-            <div>
-              <span class="text-xs font-bold text-purple-900 block leading-tight">Mural de los Nietos</span>
-              <span class="text-[11px] text-purple-800/80 mt-0.5 block">Mirá todas las tarjetas que ya le dedicamos a la abuela entre todos los nietos.</span>
-            </div>
-          </button>
-        </div>
-
-        <!-- Welcome Apple Hero Card -->
-        <div class="rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-700 to-slate-900 text-white p-6 sm:p-8 shadow-apple-float relative overflow-hidden">
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 text-xs font-semibold text-blue-200 uppercase tracking-wider mb-2">
-              <span>1 de Enero de 2027</span> • <span>Día de Quinta • Primos, Tíos & Agasajo a la Abuela</span>
-            </div>
-            
-            <!-- Cuenta Regresiva Familiar en Vivo -->
-            <div class="mb-4 p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div class="flex items-center gap-2.5">
-                <span class="text-xl">⏳</span>
-                <div>
-                  <span class="text-xs font-bold text-white block uppercase tracking-wider">Cuenta Regresiva para el Gran Encuentro:</span>
-                  <span class="text-[11px] text-blue-200">1 de Enero de 2027 a las 09:30 hs en la Quinta</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-1.5 sm:gap-2 text-center">
-                <div class="bg-white/20 px-3 py-1.5 rounded-xl border border-white/20 min-w-[52px]">
-                  <span id="guest-countdown-days" class="text-lg font-extrabold block text-white leading-none">--</span>
-                  <span class="text-[9px] text-blue-200 uppercase font-bold">Días</span>
-                </div>
-                <span class="text-white/60 font-bold">:</span>
-                <div class="bg-white/20 px-2.5 py-1.5 rounded-xl border border-white/20 min-w-[46px]">
-                  <span id="guest-countdown-hours" class="text-lg font-extrabold block text-amber-300 leading-none">--</span>
-                  <span class="text-[9px] text-amber-200 uppercase font-bold">Horas</span>
-                </div>
-                <span class="text-white/60 font-bold">:</span>
-                <div class="bg-white/20 px-2.5 py-1.5 rounded-xl border border-white/20 min-w-[46px]">
-                  <span id="guest-countdown-minutes" class="text-lg font-extrabold block text-emerald-300 leading-none">--</span>
-                  <span class="text-[9px] text-emerald-200 uppercase font-bold">Min</span>
-                </div>
-                <span class="text-white/60 font-bold">:</span>
-                <div class="bg-white/20 px-2.5 py-1.5 rounded-xl border border-white/20 min-w-[46px]">
-                  <span id="guest-countdown-seconds" class="text-lg font-extrabold block text-rose-300 leading-none">--</span>
-                  <span class="text-[9px] text-rose-200 uppercase font-bold">Seg</span>
-                </div>
-              </div>
-            </div>
-            <h2 id="guest-welcome-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight">¡Hola, Familia Ramírez Benítez!</h2>
-            <p class="text-blue-100 text-sm mt-1 max-w-xl">
-              Nos estamos preparando para el gran día en la quinta el 1 de enero de 2027: almuerzo, gran asado, pileta libre, reencuentro de primos y tíos, y agasajo a la abuela.
-            </p>
-
-            <!-- Guest Attendance Status Card -->
-            <div class="mt-5 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-lg">🏡</span>
-                <div>
-                  <span class="text-xs font-bold text-white block">Estado de Llegada a la Quinta</span>
-                  <span id="guest-presence-status-text" class="text-xs text-blue-100">Consultando asistencia...</span>
-                </div>
-              </div>
-              <button type="button" id="btn-guest-checkin-self" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs shadow-sm transition-all flex items-center gap-1.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                ¡Ya estamos en la Quinta!
-              </button>
-            </div>
-
-            <!-- Guest Family Overview Card (Cuentas cerradas / Solo datos familiares y roles) -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-6 border-t border-white/15">
-              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
-                <span class="text-xs font-medium text-blue-200 block mb-0.5">Integrantes de tu familia</span>
-                <span id="guest-fam-count-display" class="text-xl sm:text-2xl font-bold tracking-tight text-white">0 personas</span>
-                <span id="guest-fam-count-sub" class="text-[11px] text-blue-200/80 block mt-0.5">Confirmados para el evento</span>
-              </div>
-
-              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
-                <span class="text-xs font-medium text-blue-200 block mb-0.5">Presencia en la Quinta</span>
-                <span id="guest-fam-presence-display" class="text-xl sm:text-2xl font-bold tracking-tight text-emerald-300">0 en predio</span>
-                <span class="text-[11px] text-emerald-200/80 block mt-0.5">Acceso a pileta y quincho</span>
-              </div>
-
-              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
-                <span class="text-xs font-medium text-blue-200 block mb-0.5">Estado de Cuentas</span>
-                <span class="text-xl sm:text-2xl font-bold tracking-tight text-white">Cuentas Cerradas 🔒</span>
-                <span class="text-[11px] font-semibold text-emerald-300 block mt-0.5">Presupuesto 100% coordinado</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2 Columns: Integrantes de Mi Familia & Transparencia del Evento -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Top Personalized Guest Welcome Banner -->
+        <div class="rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 text-white p-6 sm:p-7 shadow-apple-float relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
           
-          <!-- Mis Integrantes Card -->
-          <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-bold text-slate-900 text-base">Integrantes Registrados</h3>
-                <p class="text-xs text-slate-500">¿Quiénes asisten por tu familia?</p>
-              </div>
-              <button id="btn-guest-add-member" class="px-3.5 py-1.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold text-xs transition-all flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                + Agregar Familiar
-              </button>
-            </div>
-
-            <div id="guest-members-list" class="space-y-2.5 pt-1">
-              <!-- Rendered by JS -->
-            </div>
-
-            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 flex items-start gap-2.5">
-              <span class="text-blue-500 mt-0.5">💡</span>
-              <span>Podés marcar o desmarcar la asistencia tocando el botón de confirmación de cada persona para que calculemos la comida exacta.</span>
-            </div>
-          </div>
-
-          <!-- Roles & Responsabilidades de Nuestra Familia (Cuentas cerradas) -->
-          <div class="space-y-5">
-            
-            <!-- Roles y Tareas de Mi Familia Card -->
-            <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm shadow-apple-sm">📋</span>
-                    Roles & Tareas de Nuestra Familia
-                  </h3>
-                  <p class="text-xs text-slate-500">¿De qué nos encargamos para el encuentro?</p>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-purple-50 text-purple-700 border border-purple-200">
-                  Organización
+          <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/15">
+                  1 de Enero de 2027 • Quinta Familiar
+                </span>
+                <span id="guest-role-badge-hero" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950">
+                  Invitados de Honor
                 </span>
               </div>
+              <h2 id="guest-welcome-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
+                ¡Hola, Familia! 👋
+              </h2>
+              <p class="text-xs sm:text-sm text-blue-100 max-w-xl leading-relaxed">
+                Nos preparamos para el gran día en la quinta: gran asado criollo, pileta libre, reencuentro de primos y tíos, y el homenaje central a nuestra querida abuela Angelina.
+              </p>
+            </div>
 
-              <div id="guest-roles-list" class="space-y-3 pt-1">
+            <!-- Compact Apple Live Countdown Ticker -->
+            <div class="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 shrink-0 space-y-1.5 text-center shadow-sm">
+              <div class="flex items-center justify-center gap-1.5 text-[11px] font-semibold text-blue-200 uppercase tracking-wider">
+                <span>⏳</span> <span>Cuenta Regresiva Oficial:</span>
+              </div>
+              <div class="flex items-center justify-center gap-1.5 text-center">
+                <div class="bg-black/25 px-2.5 py-1.5 rounded-xl min-w-[50px] border border-white/10">
+                  <span id="guest-countdown-days" class="text-lg font-extrabold block text-white leading-none">--</span>
+                  <span class="text-[8px] uppercase tracking-wider text-blue-200 font-bold">Días</span>
+                </div>
+                <span class="text-white/40 font-bold">:</span>
+                <div class="bg-black/25 px-2 py-1.5 rounded-xl min-w-[44px] border border-white/10">
+                  <span id="guest-countdown-hours" class="text-lg font-extrabold block text-amber-300 leading-none">--</span>
+                  <span class="text-[8px] uppercase tracking-wider text-amber-200 font-bold">Hs</span>
+                </div>
+                <span class="text-white/40 font-bold">:</span>
+                <div class="bg-black/25 px-2 py-1.5 rounded-xl min-w-[44px] border border-white/10">
+                  <span id="guest-countdown-minutes" class="text-lg font-extrabold block text-emerald-300 leading-none">--</span>
+                  <span class="text-[8px] uppercase tracking-wider text-emerald-200 font-bold">Min</span>
+                </div>
+                <span class="text-white/40 font-bold">:</span>
+                <div class="bg-black/25 px-2 py-1.5 rounded-xl min-w-[44px] border border-white/10">
+                  <span id="guest-countdown-seconds" class="text-lg font-extrabold block text-rose-300 leading-none">--</span>
+                  <span class="text-[8px] uppercase tracking-wider text-rose-200 font-bold">Seg</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA 1: GUEST INICIO (MI FAMILIA)           -->
+        <!-- ============================================== -->
+        <div id="guest-tab-inicio" class="guest-tab-content space-y-6">
+
+          <!-- Quick Action Bar -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button type="button" id="btn-guest-shortcut-confirm" class="p-4 rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-apple-sm text-left transition-all hover:shadow-apple-float flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-100 block">Confirmación Rápida</span>
+                <span class="text-sm font-extrabold text-white block">Confirmar Mi Familia ✓</span>
+                <span id="guest-shortcut-confirm-sub" class="text-[11px] text-emerald-100 block">Confirmar a todos en 1 toque</span>
+              </div>
+              <span class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-lg font-bold shrink-0">✨</span>
+            </button>
+
+            <button type="button" id="btn-guest-checkin-self" class="p-4 rounded-3xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-apple-sm text-left transition-all hover:shadow-apple-float flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-100 block">Control en Portería</span>
+                <span class="text-sm font-extrabold text-white block">¡Ya estamos en la Quinta!</span>
+                <span id="guest-presence-status-text" class="text-[11px] text-blue-100 block">Registrar ingreso el 1 de enero</span>
+              </div>
+              <span class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-lg font-bold shrink-0">🏡</span>
+            </button>
+
+            <button type="button" id="btn-guest-view-invitation" class="p-4 rounded-3xl bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-apple-sm text-left transition-all hover:shadow-apple-float flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-purple-100 block">Carta Oficial</span>
+                <span class="text-sm font-extrabold text-white block">Ver Carta de Invitación</span>
+                <span class="text-[11px] text-purple-100 block">Texto de honor familiar</span>
+              </div>
+              <span class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-lg font-bold shrink-0">💌</span>
+            </button>
+          </div>
+
+          <!-- 2 Columns: Mis Integrantes & Estado del Evento -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            <!-- Columna Izquierda: Integrantes Registrados -->
+            <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div>
+                  <h3 class="font-bold text-slate-900 text-base">Integrantes de Nuestra Familia</h3>
+                  <p class="text-xs text-slate-500">Tocá el botón de cada persona para confirmar su asistencia</p>
+                </div>
+                <button id="btn-guest-add-member" class="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold text-xs transition-all flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                  + Agregar Familiar
+                </button>
+              </div>
+
+              <div id="guest-members-list" class="space-y-2.5 pt-1">
                 <!-- Rendered by JS -->
               </div>
 
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 flex items-start gap-2.5">
-                <span class="text-purple-500 mt-0.5">💡</span>
-                <span>Si necesitás cambiar tu rol o sumar alguna tarea, avisale directamente a Jorge en la quinta o por WhatsApp.</span>
-              </div>
-            </div>
-
-
-
-            <!-- Dynamic Financial Card: Aportante vs Invitado de Honor -->
-            <div id="guest-financial-status-wrapper">
-              <!-- Rendered by JS dynamically based on whether user is an Aportante or Honorary Guest -->
-            </div>
-
-            <!-- Card Lugar del Evento & Ubicación en Google Maps (Quinta) -->
-            <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                  <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-sm shadow-sm font-bold">📍</span>
-                  <div>
-                    <h3 id="guest-quinta-name" class="font-bold text-slate-900 text-base">Quinta Familiar</h3>
-                    <p class="text-xs text-slate-500">Predio oficial del encuentro del 1 de Enero</p>
-                  </div>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                  Ubicación
-                </span>
-              </div>
-
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
-                <div class="flex items-start gap-2">
-                  <span class="text-slate-400 font-bold shrink-0">📍 Dirección:</span>
-                  <span id="guest-quinta-direccion" class="font-semibold text-slate-800">Ciudad del Este, Paraguay</span>
-                </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-slate-400 font-bold shrink-0">⏰ Horario:</span>
-                  <span id="guest-quinta-horario" class="text-slate-700">Desde las 09:30 hs (Todo el día)</span>
-                </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-slate-400 font-bold shrink-0">🏊 Comodidades:</span>
-                  <span id="guest-quinta-comodidades" class="text-slate-600">Piscina libre, quincho, parrilla, mesas y sillas</span>
-                </div>
-              </div>
-
-              <!-- Botón directo para abrir en Google Maps -->
-              <a id="btn-guest-open-maps" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 text-center">
-                <svg class="w-5 h-5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <span>Cómo Llegar en Google Maps (GPS) 📍</span>
-              </a>
-            </div>
-
-            <!-- Card Álbum Compartido de Google Fotos -->
-            <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                  <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 text-white flex items-center justify-center text-sm shadow-sm font-bold">📸</span>
-                  <div>
-                    <h3 class="font-bold text-slate-900 text-base">Álbum de Recuerdos en Google Fotos</h3>
-                    <p class="text-xs text-slate-500">Primer Gran Encuentro Familiar</p>
-                  </div>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
-                  Google Fotos
-                </span>
-              </div>
-
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Todas las fotos que saques con tu celular durante el encuentro se guardan en el álbum oficial familiar para que nadie se pierda ningún recuerdo.
-              </p>
-
-              <!-- Botón directo de apertura en Google Fotos -->
-              <a id="btn-guest-open-photos" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 text-center">
-                <svg class="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
-                Abrir Álbum y Subir Fotos en Google Fotos 📸
-              </a>
-
-              <!-- Botón directo para cámara de celular -->
-              <div class="flex items-center gap-2">
-                <label for="camera-direct-input-guest" class="cursor-pointer flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-all flex items-center justify-center gap-2 text-center">
-                  <span>📷 Tomar / Elegir Fotos desde mi Celular</span>
-                </label>
-                <input type="file" id="camera-direct-input-guest" accept="image/*" multiple capture="environment" class="hidden">
-              </div>
-
-              <!-- Guía rápida para la familia -->
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600 space-y-1">
-                <p class="font-bold text-slate-800">¿Cómo subir tus fotos al álbum?</p>
-                <p>1. Tocá <strong>"Abrir Álbum y Subir Fotos"</strong> (se abre tu app de Google Fotos).</p>
-                <p>2. Tocá <strong>"Unirme"</strong> arriba a la derecha.</p>
-                <p>3. Tocá el botón <strong>"+"</strong> y seleccioná todas las fotos que sacaste en la quinta. ¡Se suben al instante!</p>
-              </div>
-
-              <!-- Previsualización de Fotos en Celular del Invitado -->
-              <div id="guest-photos-preview-card" class="hidden pt-3 border-t border-slate-100 space-y-2">
+              <!-- Roles y Tareas de la Familia -->
+              <div class="pt-4 border-t border-slate-100 space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-slate-800">Fotos listas para subir:</span>
-                  <button type="button" id="btn-guest-clear-preview-photos" class="text-[11px] text-rose-600 font-semibold hover:underline">Borrar</button>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xs">📋</span>
+                    Comisión / Roles Asignados
+                  </h4>
+                  <span class="text-[10px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">Organización</span>
                 </div>
-                <div id="guest-photos-preview-grid" class="grid grid-cols-3 gap-2"></div>
+                <div id="guest-roles-list" class="space-y-2 text-xs">
+                  <!-- Rendered by JS -->
+                </div>
               </div>
             </div>
 
+            <!-- Columna Derecha: Tarjeta Financiera / Honor & Atajos -->
+            <div class="space-y-5">
+              
+              <!-- Dynamic Financial Card: Aportante vs Invitado de Honor -->
+              <div id="guest-financial-status-wrapper">
+                <!-- Rendered by JS dynamically based on whether user is an Aportante or Honorary Guest -->
+              </div>
 
-            <!-- Hidden container for preserved elements to maintain backward compatibility -->
-                        <div id="guest-bank-section-hidden" class="hidden">
-              <span id="bank-alias-text">5007901</span>
-              <span id="payment-concept-text">Encuentro Familiar 2027</span>
-              <span id="guest-kpi-cuota">Gs. 0</span>
-              <span id="guest-kpi-aportado">Gs. 0</span>
-              <span id="guest-kpi-saldo">Gs. 0</span>
-              <span id="guest-kpi-status-badge">Cerrado</span>
-              <button type="button" id="btn-copy-alias">Copiar Alias</button>
-              <button type="button" id="btn-copy-all-bank">Copiar Datos Bancarios</button>
-              <button type="button" id="btn-notify-payment-wa">Notificar Aporte a Jorge por WhatsApp</button>
+              <!-- Banner Interactivo: Pestaña de Detalle de Gastos -->
+              <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white rounded-3xl p-5 shadow-apple-sm space-y-3 border border-slate-800">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center text-base font-bold">💰</span>
+                    <div>
+                      <h4 class="font-extrabold text-white text-sm">Transparencia Total de Gastos</h4>
+                      <p class="text-[11px] text-slate-300">Conocé cada ítem comprado, alquiler y asado</p>
+                    </div>
+                  </div>
+                  <button type="button" id="btn-shortcut-to-guest-gastos" class="px-3.5 py-1.5 rounded-xl bg-white text-slate-900 hover:bg-blue-50 font-bold text-xs transition-all flex items-center gap-1 shadow-sm">
+                    Ver Detalle →
+                  </button>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Encuentro financiado con amor y transparencia por todos los nietos. Podés consultar el desglose exacto de carne, quinta, bebidas y logística en la pestaña <strong>Detalle de Gastos</strong>.
+                </p>
+              </div>
+
+              <!-- Mini Quinta Shortcut Card con Botón GPS -->
+              <div class="bg-white rounded-3xl p-5 shadow-apple-sm border border-slate-200/70 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base font-bold">📍</span>
+                    <div>
+                      <h4 id="guest-quinta-name-mini" class="font-bold text-slate-900 text-sm">Quinta Familiar</h4>
+                      <p id="guest-quinta-direccion-mini" class="text-xs text-slate-500 truncate max-w-[200px]">Ciudad del Este, Paraguay</p>
+                    </div>
+                  </div>
+                  <button type="button" id="btn-shortcut-to-guest-quinta" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5">
+                    <span>Ver Predio & GPS 📍</span>
+                  </button>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA 2: DETALLE DE GASTOS & TRANSPARENCIA  -->
+        <!-- ============================================== -->
+        <div id="guest-tab-gastos" class="guest-tab-content hidden space-y-6">
+
+          <!-- Hero Transparency Card -->
+          <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white p-6 sm:p-8 shadow-apple-float space-y-6 relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Transparencia Financiera • Encuentro Familiar 2027</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Detalle de Gastos & Presupuesto</h3>
+                <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                  Acá podés ver con total claridad cada compra, alquiler y servicio contratado para la quinta. Los gastos son cubiertos equitativamente por los nietos aportantes para agasajar a la abuela y a toda la familia.
+                </p>
+              </div>
+            </div>
+
+            <!-- 4 Live KPI Cards for Guests -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <div class="bg-white/5 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Presupuesto Total</span>
+                  <span class="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs">📋</span>
+                </div>
+                <span id="guest-kpi-gasto-total" class="text-xl sm:text-2xl font-extrabold text-white mt-1.5 block">Gs. 0</span>
+                <span class="text-[10px] text-slate-400 mt-0.5 block">Total compras y quinta</span>
+              </div>
+
+              <div class="bg-white/5 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Total Abonado</span>
+                  <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs">✅</span>
+                </div>
+                <span id="guest-kpi-gasto-pagado" class="text-xl sm:text-2xl font-extrabold text-emerald-400 mt-1.5 block">Gs. 0</span>
+                <span id="guest-kpi-gasto-pagado-sub" class="text-[10px] text-emerald-300/80 mt-0.5 block">Señas entregadas</span>
+              </div>
+
+              <div class="bg-white/5 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Saldo Pendiente</span>
+                  <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs">⏳</span>
+                </div>
+                <span id="guest-kpi-gasto-saldo" class="text-xl sm:text-2xl font-extrabold text-amber-300 mt-1.5 block">Gs. 0</span>
+                <span class="text-[10px] text-amber-200/80 mt-0.5 block">Por abonar a proveedores</span>
+              </div>
+
+              <div class="bg-white/5 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Cuota por Nieto</span>
+                  <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs">🎁</span>
+                </div>
+                <span id="guest-kpi-gasto-cuota" class="text-xl sm:text-2xl font-extrabold text-purple-300 mt-1.5 block">Gs. 0</span>
+                <span class="text-[10px] text-purple-200/80 mt-0.5 block">Dividido entre los nietos</span>
+              </div>
+            </div>
+
+            <!-- Barra de Avance de Pagos -->
+            <div class="space-y-1.5 pt-1">
+              <div class="flex items-center justify-between text-xs text-slate-300 font-medium">
+                <span>Avance de cobertura de gastos con proveedores:</span>
+                <span id="guest-gasto-pct-text" class="font-bold text-emerald-300">0% ejecutado</span>
+              </div>
+              <div class="w-full h-2.5 rounded-full bg-white/10 overflow-hidden">
+                <div id="guest-gasto-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls: Buscador y Filtro por Categorías -->
+          <div class="bg-white p-4 rounded-3xl border border-slate-200/70 shadow-apple-sm space-y-3">
+            <div class="relative">
+              <input type="text" id="search-guest-gasto" placeholder="Buscar compras: asado, quinta, bebidas, hielo, sillas, torta..." class="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-slate-50 text-slate-800 text-xs sm:text-sm border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
+              <button type="button" data-guest-cat="Todos" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-900 text-white font-semibold text-xs shadow-sm transition-all shrink-0">Todas</button>
+              <button type="button" data-guest-cat="1 de Enero" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0">🏡 Quinta & Predio</button>
+              <button type="button" data-guest-cat="Comida" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0">🥩 Asado & Comida</button>
+              <button type="button" data-guest-cat="Bebidas" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0">🧊 Bebidas & Hielo</button>
+              <button type="button" data-guest-cat="Estetico" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0">🎈 Decoración & Torta</button>
+              <button type="button" data-guest-cat="Varios" class="btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0">🪑 Mesas & Sillas</button>
+            </div>
+          </div>
+
+          <!-- Lista de Gastos para Invitados -->
+          <div id="guest-gastos-list" class="space-y-3">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Nota de Transparencia Comunitaria -->
+          <div class="p-4 rounded-3xl bg-blue-50/70 border border-blue-100 text-xs text-blue-900 space-y-1.5">
+            <div class="flex items-center gap-2 font-bold text-blue-800">
+              <span>🤝</span> <span>Transparencia y Claridad para Toda la Familia</span>
+            </div>
+            <p class="text-[11px] text-blue-700 leading-relaxed">
+              Todos los montos corresponden a presupuestos y facturas reales del encuentro. Si tenés alguna duda sobre compras o querés sumar alguna sugerencia, podés conversar directamente con Jorge o con Denis.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA 3: LA QUINTA & UBICACIÓN GPS          -->
+        <!-- ============================================== -->
+        <div id="guest-tab-quinta" class="guest-tab-content hidden space-y-6">
+
+          <!-- Card Principal de la Quinta -->
+          <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-apple-sm border border-slate-200/70 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-2xl shadow-sm">
+                  📍
+                </div>
+                <div>
+                  <h3 id="guest-quinta-name" class="font-extrabold text-slate-900 text-xl">Quinta Familiar</h3>
+                  <p class="text-xs text-slate-500">Predio oficial reservado en exclusiva para la familia</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
+                Acceso Exclusivo 24 hs
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                <span class="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">📍 Dirección / Referencia</span>
+                <span id="guest-quinta-direccion" class="font-extrabold text-slate-900 text-sm block">Ciudad del Este, Paraguay</span>
+                <span class="text-[11px] text-slate-500 block">Acceso pavimentado con estacionamiento</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                <span class="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">⏰ Horario Oficial</span>
+                <span id="guest-quinta-horario" class="font-extrabold text-slate-900 text-sm block">Desde las 09:30 hs</span>
+                <span class="text-[11px] text-slate-500 block">Jornada completa hasta el anochecer</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                <span class="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">🏊 Servicios & Comodidades</span>
+                <span id="guest-quinta-comodidades" class="font-extrabold text-slate-900 text-sm block">Piscina libre, quincho y parrilla</span>
+                <span class="text-[11px] text-slate-500 block">Mesas, sillas y sombra para todos</span>
+              </div>
+            </div>
+
+            <!-- Botón Grande de Navegación con GPS -->
+            <a id="btn-guest-open-maps" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2.5 text-center">
+              <svg class="w-5 h-5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <span>Abrir Ubicación en Google Maps (Navegación GPS) 📍</span>
+            </a>
+          </div>
+
+          <!-- Cronograma de la Jornada en la Quinta -->
+          <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 space-y-4">
+            <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span class="w-7 h-7 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">⏰</span>
+              Cronograma de Momentos del 1 de Enero
+            </h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <span class="text-xl">🏊</span>
+                <div>
+                  <span class="font-extrabold text-slate-900 block">09:30 hs • Llegada & Pileta</span>
+                  <span class="text-slate-500 text-[11px]">Tereré rupa refrescante, recepción y apertura de piscina.</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <span class="text-xl">🔥</span>
+                <div>
+                  <span class="font-extrabold text-slate-900 block">11:00 hs • Ronda & Fuego</span>
+                  <span class="text-slate-500 text-[11px]">Picadas de chorizos, encendido de la parrilla y anécdotas.</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-start gap-3">
+                <span class="text-xl">🥩</span>
+                <div>
+                  <span class="font-extrabold text-emerald-950 block">13:00 hs • Gran Asado & Homenaje</span>
+                  <span class="text-emerald-800 text-[11px]">Almuerzo familiar con agasajo central a la Abuela Angelina.</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <span class="text-xl">🎵</span>
+                <div>
+                  <span class="font-extrabold text-slate-900 block">15:30 hs • Pileta & Juegos</span>
+                  <span class="text-slate-500 text-[11px]">Música, voley, pileta libre y diversión para chicos y grandes.</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <span class="text-xl">🎂</span>
+                <div>
+                  <span class="font-extrabold text-slate-900 block">17:30 hs • Merienda & Torta</span>
+                  <span class="text-slate-500 text-[11px]">Torta familiar, brindis y sesión de fotos de recuerdo.</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <span class="text-xl">👋</span>
+                <div>
+                  <span class="font-extrabold text-slate-900 block">19:30 hs • Despedida</span>
+                  <span class="text-slate-500 text-[11px]">Abrazo final y cierre de una jornada inolvidable.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA 4: TARJETAS & MURAL DE LA ABUELA       -->
+        <!-- ============================================== -->
+        <div id="guest-tab-tarjetas" class="guest-tab-content hidden space-y-6">
+
+          <!-- Acciones Rápidas de Creación -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <button type="button" id="btn-guest-card-abuela" class="bg-gradient-to-br from-amber-50 to-amber-100/60 hover:from-amber-100 hover:to-amber-200/80 p-4 rounded-3xl border border-amber-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
+                👑
+              </div>
+              <div>
+                <span class="text-xs font-bold text-amber-900 block leading-tight">Tarjeta para la Abuela</span>
+                <span class="text-[11px] text-amber-800/80 mt-0.5 block">Como nieto/a, creá tu tarjeta personal para la abuela y sumala al mural.</span>
+              </div>
+            </button>
+
+            <button type="button" id="btn-guest-card-padres" class="bg-gradient-to-br from-rose-50 to-rose-100/60 hover:from-rose-100 hover:to-rose-200/80 p-4 rounded-3xl border border-rose-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-rose-500 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
+                ❤️
+              </div>
+              <div>
+                <span class="text-xs font-bold text-rose-900 block leading-tight">Tarjeta para Papá y Mamá</span>
+                <span class="text-[11px] text-rose-800/80 mt-0.5 block">Como hijo/a, invitá a tus padres como Invitados de Honor con su tarjeta gráfica.</span>
+              </div>
+            </button>
+
+            <button type="button" id="btn-guest-open-card-studio-shortcut" class="bg-gradient-to-br from-purple-50 to-indigo-100/60 hover:from-purple-100 hover:to-indigo-200/80 p-4 rounded-3xl border border-purple-200/90 shadow-apple-sm text-left transition-all flex items-start gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
+                🎨
+              </div>
+              <div>
+                <span class="text-xs font-bold text-purple-900 block leading-tight">Estudio Gráfico PNG</span>
+                <span class="text-[11px] text-purple-800/80 mt-0.5 block">Diseñá y descargá tu tarjeta en imagen HD 1080×1350 px.</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Mural de la Abuela View Integrado -->
+          <div class="space-y-4">
+            <div class="rounded-3xl bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-700 text-white p-6 shadow-apple-float flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full text-white border border-white/10">👑 Mural de los Nietos</span>
+                <h3 class="text-xl font-extrabold text-white">Dedicatorias de Amor para la Abuela Angelina</h3>
+                <p class="text-xs text-rose-100">Mirá todas las tarjetas que ya le dedicamos entre los nietos de la familia.</p>
+              </div>
+              <button type="button" id="btn-guest-mural-add-card" class="px-4 py-2.5 rounded-2xl bg-white text-slate-900 hover:bg-amber-50 font-extrabold text-xs shadow-md transition-all shrink-0">
+                + Sumar Mi Tarjeta
+              </button>
+            </div>
+
+            <div id="guest-mural-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PESTAÑA 5: FOTOS & RECUERDOS (GOOGLE FOTOS)    -->
+        <!-- ============================================== -->
+        <div id="guest-tab-fotos" class="guest-tab-content hidden space-y-6">
+
+          <!-- Card Álbum Compartido de Google Fotos -->
+          <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-apple-sm border border-slate-200/70 space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-500 text-white flex items-center justify-center text-2xl shadow-sm">
+                  📸
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-slate-900 text-lg">Álbum Oficial en Google Fotos</h3>
+                  <p class="text-xs text-slate-500">Primer Gran Encuentro Familiar • Recuerdos Inolvidables</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                Colaborativo
+              </span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Todas las fotos y videos que saques con tu celular durante el encuentro se guardan en el álbum oficial familiar para que nadie se pierda ningún recuerdo de la quinta.
+            </p>
+
+            <!-- Botones de Acción -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a id="btn-guest-open-photos" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 text-center">
+                <svg class="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                <span>Abrir Álbum y Ver Fotos en Google Fotos 📸</span>
+              </a>
+
+              <label for="camera-direct-input-guest" class="cursor-pointer flex-1 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 text-center">
+                <span>📷 Tomar / Elegir Fotos desde mi Celular</span>
+              </label>
+              <input type="file" id="camera-direct-input-guest" accept="image/*" multiple capture="environment" class="hidden">
+            </div>
+
+            <!-- Guía rápida para la familia -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-700 space-y-2">
+              <p class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                <span>💡</span> ¿Cómo subir tus fotos al álbum en 3 pasos?
+              </p>
+              <ol class="list-decimal list-inside space-y-1 text-slate-600 pl-1">
+                <li>Tocá <strong>"Abrir Álbum y Ver Fotos"</strong> (se abre tu app de Google Fotos).</li>
+                <li>Tocá el botón <strong>"Unirme"</strong> arriba a la derecha.</li>
+                <li>Tocá el icono <strong>"+"</strong> y seleccioná todas las fotos que sacaste en la quinta. ¡Se suben al instante en calidad original!</li>
+              </ol>
+            </div>
+
+            <!-- Previsualización de Fotos en Celular del Invitado -->
+            <div id="guest-photos-preview-card" class="hidden pt-3 border-t border-slate-100 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800">Fotos listas para subir:</span>
+                <button type="button" id="btn-guest-clear-preview-photos" class="text-[11px] text-rose-600 font-semibold hover:underline">Borrar</button>
+              </div>
+              <div id="guest-photos-preview-grid" class="grid grid-cols-3 gap-2"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hidden container for preserved elements to maintain backward compatibility -->
+        <div id="guest-bank-section-hidden" class="hidden">
+          <span id="bank-alias-text">5007901</span>
+          <span id="payment-concept-text">Encuentro Familiar 2027</span>
+          <span id="guest-kpi-cuota">Gs. 0</span>
+          <span id="guest-kpi-aportado">Gs. 0</span>
+          <span id="guest-kpi-saldo">Gs. 0</span>
+          <span id="guest-kpi-status-badge">Cerrado</span>
+          <button type="button" id="btn-copy-alias">Copiar Alias</button>
+          <button type="button" id="btn-copy-all-bank">Copiar Datos Bancarios</button>
+          <button type="button" id="btn-notify-payment-wa">Notificar Aporte a Jorge por WhatsApp</button>
         </div>
 
       </div>
@@ -2794,7 +3056,18 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         { id: 'a_54', familia_id: 'f_paiva_bolanos', nombre: 'Milagros Paiva', categoria: 'Adulto', confirmado: false, estado_flujo: 'pendiente', rol: 'Participante', tareas: '' },
         { id: 'a_55', familia_id: 'f_paiva_bolanos', nombre: 'Esmeralda Paiva', categoria: 'Criatura', confirmado: false, estado_flujo: 'pendiente', rol: 'Participante', tareas: '' }
       ],
-      gastos: [],
+      gastos: [
+        { id: 'g_1', descripcion: "Alquiler Quinta (Predio, Pileta & Quincho)", categoria: "1 de Enero", cantidad: 1, costo_total: 1200000, total_abonado: 600000, observaciones: "Acceso exclusivo 24hs 1 de enero • Seña entregada" },
+        { id: 'g_2', descripcion: "Carne Vacuna para Asado (Costilla & Vacío)", categoria: "Comida", cantidad: 25, costo_total: 1100000, total_abonado: 0, observaciones: "Cálculo para 55 personas (~1/2 kg por adulto)" },
+        { id: 'g_3', descripcion: "Chorizos Parrilleros & Morcillas", categoria: "Comida", cantidad: 10, costo_total: 220000, total_abonado: 0, observaciones: "Picada previa del asado criollo" },
+        { id: 'g_4', descripcion: "Carbón Vegetal & Sal Gruesa", categoria: "Comida", cantidad: 6, costo_total: 100000, total_abonado: 100000, observaciones: "Bolsas de carbón para parrilla" },
+        { id: 'g_5', descripcion: "Mandioca, Sopa Paraguaya & Ensaladas", categoria: "Comida", cantidad: 1, costo_total: 250000, total_abonado: 0, observaciones: "Guarniciones tradicionales paraguayas" },
+        { id: 'g_6', descripcion: "Gaseosas, Jugos & Agua Mineral", categoria: "Bebidas", cantidad: 1, costo_total: 350000, total_abonado: 0, observaciones: "Bebidas familiares sin alcohol" },
+        { id: 'g_7', descripcion: "Bolsas de Hielo & Conservadoras", categoria: "Bebidas", cantidad: 10, costo_total: 150000, total_abonado: 0, observaciones: "Para bebidas frías y tereré refrescante" },
+        { id: 'g_8', descripcion: "Alquiler de Sillas, Mesas & Manteles", categoria: "Varios", cantidad: 54, costo_total: 300000, total_abonado: 300000, observaciones: "100% de cobertura sentados para la familia" },
+        { id: 'g_9', descripcion: "Torta Familiar & Agasajo a la Abuela", categoria: "Comida", cantidad: 1, costo_total: 200000, total_abonado: 0, observaciones: "Homenaje especial y sesión de fotos" },
+        { id: 'g_10', descripcion: "Vajilla Descartable, Servilletas & Vasos", categoria: "Varios", cantidad: 1, costo_total: 100000, total_abonado: 100000, observaciones: "Vasos térmicos, platos y cubiertos" }
+      ],
       aportes: [],
       aportantes: ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'],
       mural_abuela: [
@@ -2884,7 +3157,11 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         if (stored) {
           const parsed = JSON.parse(stored);
           if (parsed && Array.isArray(parsed.asistentes) && Array.isArray(parsed.familias)) {
-            parsed.gastos = parsed.gastos || [];
+            if (!Array.isArray(parsed.gastos) || parsed.gastos.length === 0) {
+              parsed.gastos = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.gastos));
+            } else {
+              parsed.gastos = parsed.gastos;
+            }
             parsed.aportes = parsed.aportes || [];
             if (!Array.isArray(parsed.aportantes)) {
               parsed.aportantes = ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'];
@@ -3761,6 +4038,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
               renderFlujo();
               renderDashboard();
       renderEventVenueDetails();
+      renderGuestGastos();
               showToast(`Entrada registrada para ${target.nombre} (${nowTime})`);
             }
           });
@@ -4667,6 +4945,22 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       const saldo = cuota - aportado;
 
       document.getElementById('guest-welcome-title').textContent = `¡Hola, Familia ${fam.nombre}! 👋`;
+      const confirmedCountInFam = famMembers.filter(a => a.confirmado === true).length;
+      const shortcutSub = document.getElementById('guest-shortcut-confirm-sub');
+      if (shortcutSub) {
+        shortcutSub.textContent = `${confirmedCountInFam} de ${famMembers.length} confirmados`;
+      }
+      const heroRoleBadge = document.getElementById('guest-role-badge-hero');
+      if (heroRoleBadge) {
+        const isAportanteFam = famMembers.some(m => (appState.aportantes || []).includes(m.id));
+        if (isAportanteFam) {
+          heroRoleBadge.textContent = "Nieto Aportante";
+          heroRoleBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-purple-400 text-purple-950";
+        } else {
+          heroRoleBadge.textContent = "Invitados de Honor";
+          heroRoleBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950";
+        }
+      }
       const kpiCuotaEl = document.getElementById('guest-kpi-cuota');
       if (kpiCuotaEl) kpiCuotaEl.textContent = formatGs(cuota);
       const kpiAportadoEl = document.getElementById('guest-kpi-aportado');
@@ -6045,6 +6339,221 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
     }
 
 
+
+    // ========================================================
+    // 6H. GUEST NAVIGATION & EXPENSES TRANSPARENCY CONTROLLER
+    // ========================================================
+    let currentGuestTab = 'guest-tab-inicio';
+    let currentGuestGastosCat = 'Todos';
+    let currentGuestGastosSearch = '';
+
+    function switchGuestTab(tabId) {
+      currentGuestTab = tabId;
+      const guestTabBtns = document.querySelectorAll('.guest-tab-btn');
+      const guestTabContents = document.querySelectorAll('.guest-tab-content');
+
+      guestTabBtns.forEach(btn => {
+        if (btn.getAttribute('data-guest-tab') === tabId) {
+          btn.className = "guest-tab-btn px-3.5 py-1.5 rounded-full bg-slate-900 text-white font-semibold transition-all flex items-center gap-1.5 shadow-sm";
+        } else {
+          btn.className = "guest-tab-btn px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5";
+        }
+      });
+
+      guestTabContents.forEach(content => {
+        if (content.id === tabId) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+
+      if (tabId === 'guest-tab-gastos') {
+        renderGuestGastos(currentGuestGastosCat, currentGuestGastosSearch);
+      } else if (tabId === 'guest-tab-tarjetas') {
+        renderGuestMuralPreview();
+      }
+    }
+
+    function renderGuestMuralPreview() {
+      const container = document.getElementById('guest-mural-cards-grid');
+      if (!container) return;
+      const cards = appState.mural_abuela || [];
+      if (cards.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-8 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">
+            <span class="text-3xl block mb-2">👑</span>
+            <p class="font-bold text-slate-700 text-sm">Aún no hay tarjetas en el mural</p>
+            <p class="text-xs text-slate-500 mt-1">Creá tu tarjeta de homenaje para la Abuela Angelina y sumala a este mural.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = cards.map(c => {
+        let themeBadge = 'bg-amber-100 text-amber-900 border-amber-200';
+        let cardBg = 'bg-gradient-to-br from-amber-50/80 to-white border-amber-200/90';
+        if (c.tema === 'borgona_oro') {
+          themeBadge = 'bg-rose-100 text-rose-900 border-rose-200';
+          cardBg = 'bg-gradient-to-br from-rose-50/80 to-white border-rose-200/90';
+        } else if (c.tema === 'esmeralda_oro') {
+          themeBadge = 'bg-emerald-100 text-emerald-900 border-emerald-200';
+          cardBg = 'bg-gradient-to-br from-emerald-50/80 to-white border-emerald-200/90';
+        }
+
+        return `
+          <div class="rounded-3xl p-5 ${cardBg} border shadow-apple-sm space-y-3 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${themeBadge} border">
+                  <span>👑</span> Para la Abuela Angelina
+                </span>
+                <span class="text-[10px] text-slate-400 font-semibold">${c.fecha || '1 Ene 2027'}</span>
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 font-medium block">De su nieto(a):</span>
+                <h4 class="font-bold text-slate-900 text-base leading-tight">${c.emisor}</h4>
+                ${c.emisor_rol ? `<span class="text-[11px] text-purple-700 font-semibold block">${c.emisor_rol}</span>` : ''}
+              </div>
+              <div class="p-3.5 rounded-2xl bg-white/90 border border-slate-200/70 text-xs text-slate-700 italic leading-relaxed shadow-sm">
+                "${c.mensaje}"
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+              <button type="button" class="btn-guest-open-studio-for-card px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs transition-all" data-emisor="${encodeURIComponent(c.emisor)}">
+                <span>🎨 Ver en Estudio</span>
+              </button>
+              <button type="button" class="btn-guest-share-card-wa px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all" data-emisor="${encodeURIComponent(c.emisor)}" data-mensaje="${encodeURIComponent(c.mensaje)}">
+                <span>📲 WhatsApp</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.btn-guest-open-studio-for-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openCardStudio('mural-abuela');
+        });
+      });
+
+      container.querySelectorAll('.btn-guest-share-card-wa').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const emisor = decodeURIComponent(btn.getAttribute('data-emisor'));
+          const mensaje = decodeURIComponent(btn.getAttribute('data-mensaje'));
+          const msg = `👑 *HOMENAJE A LA ABUELA ANGELINA EN EL MURAL FAMILIAR* 🌸\n_De su nieto(a): ${emisor}_\n\n"${mensaje}"\n\n📍 *1 de Enero de 2027 • Quinta Familiar (Ciudad del Este)*\nOrganizado con amor por todos sus nietos ❤️`;
+          window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+        });
+      });
+    }
+
+    function renderGuestGastos(cat = currentGuestGastosCat, search = currentGuestGastosSearch) {
+      currentGuestGastosCat = cat;
+      currentGuestGastosSearch = search;
+      const totals = calculateTotals();
+      const term = normalizeStr(search);
+
+      // 1. Update KPI displays in guest-tab-gastos
+      const elTotal = document.getElementById('guest-kpi-gasto-total');
+      if (elTotal) elTotal.textContent = formatGs(totals.totalGastoPresupuestado);
+      const elPagado = document.getElementById('guest-kpi-gasto-pagado');
+      if (elPagado) elPagado.textContent = formatGs(totals.totalGastoAbonado);
+      const elSaldo = document.getElementById('guest-kpi-gasto-saldo');
+      if (elSaldo) elSaldo.textContent = formatGs(totals.saldoGastoPendiente);
+      const elCuota = document.getElementById('guest-kpi-gasto-cuota');
+      if (elCuota) elCuota.textContent = formatGs(totals.cuotaPorAportante);
+
+      const elPct = document.getElementById('guest-gasto-pct-text');
+      const elBar = document.getElementById('guest-gasto-progress-bar');
+      if (elPct && elBar) {
+        elPct.textContent = `${totals.pctEjecucionGastos}% ejecutado`;
+        elBar.style.width = `${totals.pctEjecucionGastos}%`;
+      }
+
+      // 2. Update badge in guest nav
+      const badgeNav = document.getElementById('badge-guest-gastos-count');
+      if (badgeNav) badgeNav.textContent = totals.totalGastosCount;
+
+      // 3. Filter expenses
+      const filtered = (appState.gastos || []).filter(g => {
+        if (term) {
+          const mDesc = normalizeStr(g.descripcion).includes(term);
+          const mCat = normalizeStr(g.categoria).includes(term);
+          const mObs = normalizeStr(g.observaciones || '').includes(term);
+          if (!mDesc && !mCat && !mObs) return false;
+        }
+        if (cat !== 'Todos' && g.categoria !== cat) return false;
+        return true;
+      });
+
+      const listContainer = document.getElementById('guest-gastos-list');
+      if (!listContainer) return;
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-8 text-center bg-white rounded-3xl border border-slate-200/80 space-y-2">
+            <span class="text-3xl block">📋</span>
+            <h4 class="font-bold text-slate-800 text-sm">No se encontraron gastos bajo este filtro</h4>
+            <p class="text-xs text-slate-500 max-w-sm mx-auto">
+              ${(appState.gastos || []).length === 0 
+                ? 'El administrador aún no cargó los gastos previstos. Podés consultar con Jorge Ramírez.' 
+                : 'Probá con otra categoría o término de búsqueda.'}
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      const categoryIcons = {
+        '1 de Enero': '🏡',
+        'Comida': '🥩',
+        'Bebidas': '🧊',
+        'Estetico': '🎈',
+        'Varios': '🪑'
+      };
+
+      listContainer.innerHTML = filtered.map(g => {
+        const costo = Number(g.costo_total || 0);
+        const abonado = Number(g.total_abonado || 0);
+        const saldo = Math.max(0, costo - abonado);
+        const pct = costo > 0 ? Math.min(100, Math.round((abonado / costo) * 100)) : 100;
+
+        let badge = '';
+        if (saldo <= 0 && costo > 0) {
+          badge = '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✅ Pagado 100%</span>';
+        } else if (abonado > 0) {
+          badge = `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200">⏳ Seña Abonada (${pct}%)</span>`;
+        } else {
+          badge = '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">📋 Presupuestado</span>';
+        }
+
+        const icon = categoryIcons[g.categoria] || '📦';
+
+        return `
+          <div class="p-4 rounded-3xl bg-white border border-slate-200/80 shadow-apple-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:border-slate-300">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-bold text-slate-900 text-sm">${g.descripcion}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-700 flex items-center gap-1">
+                  <span>${icon}</span> ${g.categoria}
+                </span>
+                <span class="text-[10px] text-slate-400 font-medium">Cant: ${g.cantidad || 1}</span>
+              </div>
+              ${g.observaciones ? `<p class="text-xs text-slate-500 font-normal">📍 ${g.observaciones}</p>` : ''}
+            </div>
+
+            <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+              <div class="text-left sm:text-right">
+                <span class="font-extrabold text-slate-900 text-base block">${formatGs(costo)}</span>
+                <span class="text-[11px] text-slate-400 block">${abonado > 0 ? `Abonado: ${formatGs(abonado)}` : 'Presupuestado'}</span>
+              </div>
+              <div>${badge}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
     // ========================================================
     // 6G. RENDER Y GESTIÓN DE LA QUINTA & UBICACIÓN GOOGLE MAPS
     // ========================================================
@@ -6094,6 +6603,15 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       if (guestQuintaDir) guestQuintaDir.textContent = dir;
       if (guestQuintaHorario) guestQuintaHorario.textContent = horario;
       if (guestQuintaComod) guestQuintaComod.textContent = comodidades;
+
+      const miniQuintaName = document.getElementById('guest-quinta-name-mini');
+      const miniQuintaDir = document.getElementById('guest-quinta-direccion-mini');
+      const btnMiniMaps = document.getElementById('btn-guest-open-maps-mini');
+      if (miniQuintaName) miniQuintaName.textContent = lugar;
+      if (miniQuintaDir) miniQuintaDir.textContent = dir;
+      if (btnMiniMaps) {
+        btnMiniMaps.href = mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lugar + ' Ciudad del Este')}`;
+      }
       if (btnGuestOpenMaps) {
         if (mapsUrl) {
           btnGuestOpenMaps.href = mapsUrl;
@@ -6625,6 +7143,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         viewAdmin.classList.remove('hidden');
         viewGuest.classList.add('hidden');
         adminTabsNav.classList.remove('hidden');
+        document.getElementById('guest-tabs-nav')?.classList.add('hidden');
       } else {
         userDisplayName.textContent = currentUserSession.name || "Invitado";
         userBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200";
@@ -6633,7 +7152,9 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         viewAdmin.classList.add('hidden');
         viewGuest.classList.remove('hidden');
         adminTabsNav.classList.add('hidden');
+        document.getElementById('guest-tabs-nav')?.classList.remove('hidden');
 
+        switchGuestTab(currentGuestTab || 'guest-tab-inicio');
         renderGuestView(currentUserSession.familyId);
       }
 
@@ -6739,6 +7260,42 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         }
       });
 
+      // Populate Login Family Select
+      const loginFamSel = document.getElementById('login-family-select');
+      if (loginFamSel) {
+        loginFamSel.innerHTML = '<option value="">Seleccionar Familia de la lista...</option>' + 
+          appState.familias.map(f => `<option value="${f.id}">Familia ${f.nombre}</option>`).join('');
+      }
+
+      function executeFamilyLogin(fid) {
+        if (!fid) {
+          showToast("Por favor seleccioná tu familia de la lista", true);
+          return;
+        }
+        const fam = appState.familias.find(f => f.id === fid);
+        if (fam) {
+          saveUserSession({
+            role: 'guest',
+            name: `Familia ${fam.nombre}`,
+            familyId: fam.id,
+            familyName: fam.nombre
+          });
+          showToast(`¡Bienvenidos, Familia ${fam.nombre}!`);
+          applyUserSession();
+        }
+      }
+
+      document.getElementById('btn-login-by-family')?.addEventListener('click', () => {
+        const fid = document.getElementById('login-family-select')?.value;
+        executeFamilyLogin(fid);
+      });
+
+      document.getElementById('login-family-select')?.addEventListener('change', (e) => {
+        if (e.target.value) {
+          executeFamilyLogin(e.target.value);
+        }
+      });
+
       document.querySelectorAll('.btn-quick-login').forEach(btn => {
         btn.addEventListener('click', () => {
           const name = btn.getAttribute('data-name');
@@ -6763,12 +7320,15 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
           viewAdmin.classList.add('hidden');
           viewGuest.classList.remove('hidden');
           adminTabsNav.classList.add('hidden');
+          document.getElementById('guest-tabs-nav')?.classList.remove('hidden');
           toggleBtn.textContent = "Volver a Panel Admin";
+          switchGuestTab('guest-tab-inicio');
           renderGuestView(currentUserSession.familyId || (appState.familias[0] ? appState.familias[0].id : null));
         } else {
           viewAdmin.classList.remove('hidden');
           viewGuest.classList.add('hidden');
           adminTabsNav.classList.remove('hidden');
+          document.getElementById('guest-tabs-nav')?.classList.add('hidden');
           toggleBtn.textContent = "Ver como invitado";
         }
       });
@@ -7481,6 +8041,58 @@ Concepto: Encuentro Familiar 2027 - Fam. ${famName}`;
         if (previewCardGuest) previewCardGuest.classList.add('hidden');
         if (previewGridGuest) previewGridGuest.innerHTML = '';
         if (cameraGuest) cameraGuest.value = '';
+      });
+
+      // 10B. Guest Navigation Tabs Listeners
+      document.querySelectorAll('.guest-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-guest-tab');
+          switchGuestTab(tab);
+        });
+      });
+
+      document.getElementById('btn-shortcut-to-guest-gastos')?.addEventListener('click', () => {
+        switchGuestTab('guest-tab-gastos');
+      });
+
+      document.getElementById('btn-shortcut-to-guest-quinta')?.addEventListener('click', () => {
+        switchGuestTab('guest-tab-quinta');
+      });
+
+      document.getElementById('btn-guest-shortcut-confirm')?.addEventListener('click', () => {
+        const famId = currentUserSession?.familyId || (appState.familias[0] ? appState.familias[0].id : null);
+        if (!famId) return;
+        let count = 0;
+        appState.asistentes.forEach(a => {
+          if (a.familia_id === famId) {
+            a.confirmado = true;
+            a.fecha_confirmacion = new Date().toISOString();
+            if (typeof autoSyncRecord === 'function') autoSyncRecord('asistentes', a);
+            count++;
+          }
+        });
+        saveLocalState();
+        renderGuestView(famId);
+        renderAll();
+        showToast(`¡Presencia de toda la familia confirmada con éxito (${count} personas)!`);
+      });
+
+      document.getElementById('btn-guest-mural-add-card')?.addEventListener('click', () => {
+        openCardStudio('card-studio', 'abuela');
+      });
+
+      document.getElementById('search-guest-gasto')?.addEventListener('input', (e) => {
+        renderGuestGastos(currentGuestGastosCat, e.target.value);
+      });
+
+      document.querySelectorAll('.btn-guest-cat-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.btn-guest-cat-filter').forEach(b => {
+            b.className = "btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-medium transition-all shrink-0";
+          });
+          btn.className = "btn-guest-cat-filter px-3 py-1.5 rounded-xl bg-slate-900 text-white font-semibold text-xs shadow-sm transition-all shrink-0";
+          renderGuestGastos(btn.getAttribute('data-guest-cat'), currentGuestGastosSearch);
+        });
       });
 
       // 11A. Start Live Countdown Timer

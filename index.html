@@ -476,7 +476,7 @@
                   </svg>
                   <div class="absolute text-center flex flex-col items-center">
                     <span class="text-[10px] text-slate-400 uppercase font-bold">Presupuesto</span>
-                    <span id="donut-total-text" class="text-xs font-extrabold text-slate-900">4.0M</span>
+                    <span id="donut-total-text" class="text-xs font-extrabold text-slate-900">Gs. 0</span>
                   </div>
                 </div>
                 <div id="category-breakdown-list" class="space-y-3 flex-1 w-full">
@@ -2523,7 +2523,7 @@
         </div>
         <div>
           <label for="input-familia-cuota" class="block font-semibold text-slate-700 mb-1">Cuota Asignada (Gs.):</label>
-          <input type="number" id="input-familia-cuota" value="286026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500">
+          <input type="number" id="input-familia-cuota" value="0" placeholder="0" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500">
         </div>
 
         <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
@@ -2768,14 +2768,34 @@
       <form id="form-aporte" class="space-y-3.5 text-xs sm:text-sm">
         <input type="hidden" id="input-aporte-id">
         <div>
-          <label for="select-aporte-familia" class="block font-semibold text-slate-700 mb-1">Familia que Aporta:</label>
-          <select id="select-aporte-familia" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500">
+          <label for="select-aporte-persona" class="block font-semibold text-slate-700 mb-1 flex items-center justify-between">
+            <span>Nieto Aportante / Persona:</span>
+            <span class="text-[10px] text-purple-600 font-bold">🎁 Agasajo a la Abuela</span>
+          </label>
+          <select id="select-aporte-persona" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-500 font-semibold text-slate-900 bg-white">
+            <!-- Populated by JS with 11 nietos aportantes + general family option -->
+          </select>
+        </div>
+        <div>
+          <label for="select-aporte-familia" class="block font-semibold text-slate-700 mb-1">Familia de Origen:</label>
+          <select id="select-aporte-familia" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 bg-slate-50 text-slate-800">
             <!-- Populated by JS -->
           </select>
         </div>
         <div>
-          <label for="input-aporte-monto" class="block font-semibold text-slate-700 mb-1">Monto Abonado (Gs.):</label>
-          <input type="number" id="input-aporte-monto" required value="280000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500">
+          <div class="flex items-center justify-between mb-1">
+            <label for="input-aporte-monto" class="block font-semibold text-slate-700">Monto Abonado (Gs.):</label>
+            <span id="label-aporte-cuota-ref" class="text-[11px] text-purple-700 font-bold">Cuota: Gs. 0</span>
+          </div>
+          <input type="number" id="input-aporte-monto" required min="1" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 font-extrabold text-slate-900 text-base">
+          <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+            <button type="button" id="btn-aporte-cuota-exacta" class="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 hover:bg-purple-100 text-[11px] font-bold transition-all shadow-apple-sm">
+              ⚡ Cuota Completa
+            </button>
+            <button type="button" id="btn-aporte-saldo-exacto" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-[11px] font-bold transition-all shadow-apple-sm">
+              Abonar Saldo Pendiente
+            </button>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -3026,8 +3046,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
     }
 
     // Storage Keys
-    const STORAGE_KEY = 'encuentro_familiar_2027_state_v6';
-    const USER_SESSION_KEY = 'encuentro_familiar_user_session_v6';
+    const STORAGE_KEY = 'encuentro_familiar_2027_state_v8';
+    const USER_SESSION_KEY = 'encuentro_familiar_user_session_v8';
 
     // Format Guaraníes currency
     function formatGs(amount) {
@@ -3134,18 +3154,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         { id: 'a_54', familia_id: 'f_paiva_bolanos', nombre: 'Milagros Paiva', categoria: 'Adulto', confirmado: false, estado_flujo: 'pendiente', rol: 'Participante', tareas: '' },
         { id: 'a_55', familia_id: 'f_paiva_bolanos', nombre: 'Esmeralda Paiva', categoria: 'Criatura', confirmado: false, estado_flujo: 'pendiente', rol: 'Participante', tareas: '' }
       ],
-      gastos: [
-        { id: 'g_1', descripcion: "Alquiler Quinta (Predio, Pileta & Quincho)", categoria: "1 de Enero", cantidad: 1, costo_total: 1200000, total_abonado: 600000, observaciones: "Acceso exclusivo 24hs 1 de enero • Seña entregada" },
-        { id: 'g_2', descripcion: "Carne Vacuna para Asado (Costilla & Vacío)", categoria: "Comida", cantidad: 25, costo_total: 1100000, total_abonado: 0, observaciones: "Cálculo para 55 personas (~1/2 kg por adulto)" },
-        { id: 'g_3', descripcion: "Chorizos Parrilleros & Morcillas", categoria: "Comida", cantidad: 10, costo_total: 220000, total_abonado: 0, observaciones: "Picada previa del asado criollo" },
-        { id: 'g_4', descripcion: "Carbón Vegetal & Sal Gruesa", categoria: "Comida", cantidad: 6, costo_total: 100000, total_abonado: 100000, observaciones: "Bolsas de carbón para parrilla" },
-        { id: 'g_5', descripcion: "Mandioca, Sopa Paraguaya & Ensaladas", categoria: "Comida", cantidad: 1, costo_total: 250000, total_abonado: 0, observaciones: "Guarniciones tradicionales paraguayas" },
-        { id: 'g_6', descripcion: "Gaseosas, Jugos & Agua Mineral", categoria: "Bebidas", cantidad: 1, costo_total: 350000, total_abonado: 0, observaciones: "Bebidas familiares sin alcohol" },
-        { id: 'g_7', descripcion: "Bolsas de Hielo & Conservadoras", categoria: "Bebidas", cantidad: 10, costo_total: 150000, total_abonado: 0, observaciones: "Para bebidas frías y tereré refrescante" },
-        { id: 'g_8', descripcion: "Alquiler de Sillas, Mesas & Manteles", categoria: "Varios", cantidad: 54, costo_total: 300000, total_abonado: 300000, observaciones: "100% de cobertura sentados para la familia" },
-        { id: 'g_9', descripcion: "Torta Familiar & Agasajo a la Abuela", categoria: "Comida", cantidad: 1, costo_total: 200000, total_abonado: 0, observaciones: "Homenaje especial y sesión de fotos" },
-        { id: 'g_10', descripcion: "Vajilla Descartable, Servilletas & Vasos", categoria: "Varios", cantidad: 1, costo_total: 100000, total_abonado: 100000, observaciones: "Vasos térmicos, platos y cubiertos" }
-      ],
+      gastos: [],
       aportes: [],
       aportantes: ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'],
       mural_abuela: [
@@ -3234,6 +3243,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         'encuentro_familiar_2027_state_v3',
         'encuentro_familiar_2027_state_v4',
         'encuentro_familiar_2027_state_v5',
+        'encuentro_familiar_2027_state_v6',
+        'encuentro_familiar_2027_state_v7',
         'encuentro_familiar_user_session',
         'encuentro_familiar_user_session_v5'
       ];
@@ -3246,10 +3257,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         if (stored) {
           const parsed = JSON.parse(stored);
           if (parsed && Array.isArray(parsed.asistentes) && Array.isArray(parsed.familias)) {
-            // Integrity check on gastos: must have real items and costs
-            if (!Array.isArray(parsed.gastos) || parsed.gastos.length === 0 || !parsed.gastos.some(g => Number(g.costo_total || 0) > 0)) {
-              parsed.gastos = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.gastos));
-            }
+            // Strictly preserve user gastos from Supabase/storage without injecting dummy data
+            parsed.gastos = Array.isArray(parsed.gastos) ? parsed.gastos : [];
             parsed.aportes = parsed.aportes || [];
 
             // Integrity check on aportantes: must have the 11 active grandchildren organizers
@@ -3537,12 +3546,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
               appState.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
             }
           }
-          // Do not wipe out expenses if cloud table is empty!
-          if (gas && gas.length > 0) {
-            appState.gastos = gas;
-          } else if (!appState.gastos || appState.gastos.length === 0) {
-            appState.gastos = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.gastos));
-          }
+          // Strictly take whatever is in Supabase gastos table, without injecting fictional expenses
+          appState.gastos = Array.isArray(gas) ? gas : [];
           if (apo) {
             appState.aportes = apo;
           }
@@ -3574,6 +3579,35 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
     // ========================================================
     // 5. COMPUTED VALUES & KPI CALCULATIONS
     // ========================================================
+    function getFamilyCuota(fam) {
+      if (!fam) return 0;
+      const assigned = Number(fam.cuota_asignada || 0);
+      if (assigned > 0) return assigned; // Valor cargado en tabla familias de Supabase
+
+      // Si no tiene cuota asignada por familia, pero hay gastos reales divididos:
+      const famAportantes = (appState.asistentes || []).filter(a => a.familia_id === fam.id && (appState.aportantes || []).includes(a.id));
+      const totals = calculateTotals();
+      if (famAportantes.length > 0 && totals.cuotaPorAportante > 0) {
+        return famAportantes.length * totals.cuotaPorAportante;
+      }
+      return 0;
+    }
+
+    function getPersonCuota(person) {
+      if (!person) return 0;
+      const isAp = (appState.aportantes || []).includes(person.id);
+      if (!isAp) return 0; // Invitado de honor = Gs. 0
+
+      const fam = (appState.familias || []).find(f => f.id === person.familia_id);
+      if (fam && Number(fam.cuota_asignada || 0) > 0) {
+        const famAps = (appState.asistentes || []).filter(x => x.familia_id === fam.id && (appState.aportantes || []).includes(x.id));
+        const count = famAps.length || 1;
+        return Math.ceil(Number(fam.cuota_asignada) / count);
+      }
+      const totals = calculateTotals();
+      return totals.cuotaPorAportante;
+    }
+
     function calculateTotals() {
       let totalGastoPresupuestado = 0;
       let totalGastoAbonado = 0;
@@ -3597,17 +3631,32 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
           gastosConSaldoCount++;
         }
       });
+
+      // Suma de cuotas asignadas en la tabla de familias de Supabase
+      let totalCuotasAsignadasFamilias = 0;
+      (appState.familias || []).forEach(f => {
+        totalCuotasAsignadasFamilias += Number(f.cuota_asignada || 0);
+      });
+
+      // Si no hay gastos cargados en la tabla gastos de Supabase, pero sí cuotas en familias:
+      if (totalGastoPresupuestado === 0 && totalCuotasAsignadasFamilias > 0) {
+        totalGastoPresupuestado = totalCuotasAsignadasFamilias;
+      }
+
       const saldoGastoPendiente = Math.max(0, totalGastoPresupuestado - totalGastoAbonado);
       const pctEjecucionGastos = totalGastoPresupuestado > 0 ? Math.min(100, Math.round((totalGastoAbonado / totalGastoPresupuestado) * 100)) : 100;
 
-      // Ensure aportantes array exists and defaults to 11 grandchildren organizers
+      // Asegurar que la lista de aportantes esté definida
       if (!Array.isArray(appState.aportantes)) {
         appState.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
       }
       const aportantesList = appState.aportantes;
       const aportantesCount = aportantesList.length;
-      // Formula principal: División equitativa del gasto total entre los aportantes
-      const cuotaPorAportante = aportantesCount > 0 ? Math.ceil(totalGastoPresupuestado / aportantesCount) : 0;
+
+      // Cuota proporcional por aportante (solo si hay gastos reales en Supabase)
+      const cuotaPorAportante = (aportantesCount > 0 && totalGastoPresupuestado > 0) 
+        ? Math.ceil(totalGastoPresupuestado / aportantesCount) 
+        : 0;
 
       let totalAportado = 0;
       const aportesPorFamilia = {};
@@ -3615,9 +3664,25 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       (appState.aportes || []).forEach(a => {
         const m = Number(a.monto || 0);
         totalAportado += m;
-        aportesPorFamilia[a.familia_id] = (aportesPorFamilia[a.familia_id] || 0) + m;
+        if (a.familia_id) {
+          aportesPorFamilia[a.familia_id] = (aportesPorFamilia[a.familia_id] || 0) + m;
+        }
         if (a.persona_id) {
           aportesPorPersona[a.persona_id] = (aportesPorPersona[a.persona_id] || 0) + m;
+        } else if (a.familia_id) {
+          // Fallback si el aporte fue guardado a nivel familia sin persona_id
+          const famAps = aportantesList.filter(pid => {
+            const p = (appState.asistentes || []).find(x => x.id === pid);
+            return p && p.familia_id === a.familia_id;
+          });
+          if (famAps.length === 1) {
+            aportesPorPersona[famAps[0]] = (aportesPorPersona[famAps[0]] || 0) + m;
+          } else if (famAps.length > 1) {
+            const split = Math.round(m / famAps.length);
+            famAps.forEach(pid => {
+              aportesPorPersona[pid] = (aportesPorPersona[pid] || 0) + split;
+            });
+          }
         }
       });
 
@@ -3633,7 +3698,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       let enPredioCriaturas = 0;
       const presenciaPorFamilia = {};
 
-      // Tracking of Confirmations
+      // Control de confirmaciones de asistencia
       let confirmadosCount = 0;
       let confirmadosAdultos = 0;
       let confirmadosCriaturas = 0;
@@ -3680,14 +3745,28 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       });
       const totalPersonas = (appState.asistentes || []).length;
 
-      // Estado de aportes de los nietos aportantes
+      // Estado de aportes de los nietos aportantes basado en cuotas reales de Supabase
       let aportantesAlDia = 0;
       let aportantesConSaldo = 0;
       let aportantesSuperavit = 0;
 
       aportantesList.forEach(pid => {
+        const person = (appState.asistentes || []).find(x => x.id === pid);
+        let pCuota = cuotaPorAportante;
+        if (person) {
+          const fam = (appState.familias || []).find(f => f.id === person.familia_id);
+          if (fam && Number(fam.cuota_asignada || 0) > 0) {
+            const famAps = (appState.asistentes || []).filter(x => x.familia_id === fam.id && aportantesList.includes(x.id));
+            pCuota = Math.ceil(Number(fam.cuota_asignada) / (famAps.length || 1));
+          }
+        }
         const aportadoInd = aportesPorPersona[pid] || 0;
-        const diff = cuotaPorAportante - aportadoInd;
+        if (pCuota === 0) {
+          if (aportadoInd > 0) aportantesSuperavit++;
+          else aportantesAlDia++;
+          return;
+        }
+        const diff = pCuota - aportadoInd;
         if (diff <= 0) {
           if (diff < -500) aportantesSuperavit++;
           else aportantesAlDia++;
@@ -3715,6 +3794,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         aportantesList,
         aportantesCount,
         cuotaPorAportante,
+        totalCuotasAsignadasFamilias,
         saldoCajaDisponible,
         adultos,
         criaturas,
@@ -3763,7 +3843,19 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
           ? `Dividido entre ${totals.aportantesCount} nietos` 
           : 'Total compras y quinta';
       }
-      document.getElementById('kpi-saldo').textContent = formatGs(totals.saldoCajaDisponible);
+      const elSaldo = document.getElementById('kpi-saldo');
+      const elSaldoSub = document.getElementById('kpi-saldo-sub');
+      if (elSaldo) {
+        if (totals.saldoCajaDisponible >= 0) {
+          elSaldo.textContent = formatGs(totals.saldoCajaDisponible);
+          elSaldo.className = "text-xl sm:text-2xl font-bold text-emerald-400 tracking-tight";
+          if (elSaldoSub) elSaldoSub.textContent = "Superávit disponible en caja";
+        } else {
+          elSaldo.textContent = formatGs(Math.abs(totals.saldoCajaDisponible));
+          elSaldo.className = "text-xl sm:text-2xl font-bold text-amber-300 tracking-tight";
+          if (elSaldoSub) elSaldoSub.textContent = "Anticipo a recuperar con aportes";
+        }
+      }
       document.getElementById('kpi-personas').textContent = `${totals.totalPersonas} personas`;
 
       document.getElementById('kpi-personas-pills').innerHTML = `
@@ -3773,7 +3865,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       const pct = totals.totalGastoPresupuestado > 0 
         ? Math.min(100, Math.round((totals.totalAportado / totals.totalGastoPresupuestado) * 100))
         : 100;
-      document.getElementById('kpi-porcentaje-cobertura').textContent = `${pct}% cubierto`;
+      document.getElementById('kpi-porcentaje-cobertura').textContent = `${pct}% cubierto (${formatGs(totals.totalAportado)} recaudados)`;
       document.getElementById('kpi-progress-bar').style.width = `${pct}%`;
 
       const elCompletos = document.getElementById('stat-familias-completas');
@@ -3802,8 +3894,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       if (Object.keys(catTotals).length === 0) {
         catListEl.innerHTML = `
           <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-500 text-center">
-            <p class="font-bold text-slate-800">Cuentas y Finanzas Cerradas 🔒</p>
-            <p class="text-[11px] text-slate-400 mt-1">No hay gastos activos en base de datos. Solo el administrador puede cargar nuevos gastos si fuera necesario.</p>
+            <p class="font-bold text-slate-800">Sin gastos presupuestados</p>
+            <p class="text-[11px] text-slate-400 mt-1">Podés cargar los gastos del encuentro desde la pestaña "Presupuesto & Gastos".</p>
           </div>
         `;
       } else {
@@ -3902,7 +3994,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         matrixGrid.innerHTML = appState.familias.map(f => {
           const famAportantes = appState.asistentes.filter(a => a.familia_id === f.id && (appState.aportantes || []).includes(a.id));
           const aportado = totals.aportesPorFamilia[f.id] || 0;
-          const cuotaFam = famAportantes.length * totals.cuotaPorAportante;
+          const cuotaFam = getFamilyCuota(f);
           const saldo = cuotaFam - aportado;
           const pres = totals.presenciaPorFamilia[f.id] || { total: 0, en_predio: 0 };
 
@@ -3912,27 +4004,27 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
           let badgeBg = 'bg-slate-50 text-slate-700 border-slate-200';
 
           if (famAportantes.length === 0) {
-            badgeDot = 'bg-amber-400';
+            badgeDot = 'bg-purple-400';
             statusText = 'De Honor (Gs. 0)';
-            badgeBg = 'bg-amber-50 text-amber-800 border-amber-200';
-            colorBorder = 'border-amber-200/60';
+            badgeBg = 'bg-purple-50 text-purple-800 border-purple-200';
+            colorBorder = 'border-purple-200/70';
           } else if (saldo <= 0) {
             if (saldo < -100) {
               badgeDot = 'bg-blue-500';
-              statusText = 'A Favor';
+              statusText = `+${formatGs(Math.abs(saldo))} A Favor`;
               badgeBg = 'bg-blue-50 text-blue-700 border-blue-200';
               colorBorder = 'border-blue-200/80';
             } else {
               badgeDot = 'bg-emerald-500';
-              statusText = 'Al Día';
+              statusText = 'Al Día ✓';
               badgeBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
               colorBorder = 'border-emerald-200/80';
             }
           } else {
-            badgeDot = 'bg-purple-500';
-            statusText = `${famAportantes.length} nieto(s) aport.`;
-            badgeBg = 'bg-purple-50 text-purple-700 border-purple-200';
-            colorBorder = 'border-purple-200/80';
+            badgeDot = 'bg-amber-500';
+            statusText = `Saldo: ${formatGs(saldo)}`;
+            badgeBg = 'bg-amber-50 text-amber-800 border-amber-200';
+            colorBorder = 'border-amber-200/80';
           }
 
           const pctPay = cuotaFam > 0 ? Math.min(100, Math.round((aportado / cuotaFam) * 100)) : 100;
@@ -4808,30 +4900,51 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       const tbody = document.getElementById('aportes-table-body');
       const famMap = {};
       appState.familias.forEach(f => famMap[f.id] = f.nombre);
+      const asisMap = {};
+      appState.asistentes.forEach(a => asisMap[a.id] = a.nombre);
 
-      if (appState.aportes.length === 0) {
+      if (!tbody) return;
+
+      if ((appState.aportes || []).length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" class="px-4 py-8 text-center text-slate-400 font-medium">
-              Cuentas cerradas. No hay registros de aportes pendientes ni cobros.<br>
-              <span class="text-xs text-slate-400">Se eliminaron todos los datos de cuentas y aportes de la base de datos.</span>
+            <td colspan="6" class="px-4 py-10 text-center text-slate-400">
+              <div class="max-w-md mx-auto space-y-2">
+                <span class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mx-auto font-bold">🎁</span>
+                <p class="font-bold text-slate-800 text-sm">Aún no se registraron aportes en caja</p>
+                <p class="text-xs text-slate-500">
+                  Las transferencias o pagos de los nietos aportantes se registran acá para asentar el recibo y balancear la caja.
+                </p>
+                <button type="button" class="btn-trigger-add-aporte-from-table mt-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-sm">
+                  + Cargar Primer Aporte
+                </button>
+              </div>
             </td>
           </tr>
         `;
+        tbody.querySelector('.btn-trigger-add-aporte-from-table')?.addEventListener('click', () => openAddAporteModal());
         return;
       }
 
       tbody.innerHTML = appState.aportes.map(a => {
         const famName = famMap[a.familia_id] || 'Familia';
+        const personName = a.persona_id ? asisMap[a.persona_id] : null;
         return `
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="px-4 py-3 text-slate-500 font-medium">${a.fecha || 'Reciente'}</td>
-            <td class="px-4 py-3 font-semibold text-slate-900">${famName}</td>
-            <td class="px-4 py-3 text-right font-bold text-emerald-600">${formatGs(a.monto)}</td>
-            <td class="px-4 py-3 text-slate-600">${a.metodo || 'Transferencia'}</td>
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="px-4 py-3 text-slate-500 font-medium whitespace-nowrap">${a.fecha || 'Reciente'}</td>
+            <td class="px-4 py-3">
+              <div class="space-y-0.5">
+                <span class="font-bold text-slate-900 block text-sm">${personName ? personName : 'Fam. ' + famName}</span>
+                <span class="text-[11px] text-slate-400 font-normal">Familia ${famName}</span>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-right font-extrabold text-emerald-600 text-sm">${formatGs(a.monto)}</td>
+            <td class="px-4 py-3 text-slate-600 whitespace-nowrap">
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">${a.metodo || 'Transferencia'}</span>
+            </td>
             <td class="px-4 py-3 text-slate-500 text-xs">${a.nota || '—'}</td>
             <td class="px-4 py-3 text-center">
-              <button class="btn-delete-aporte p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all" data-aporte-id="${a.id}">
+              <button class="btn-delete-aporte p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all" data-aporte-id="${a.id}" title="Eliminar aporte">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </td>
@@ -4846,8 +4959,8 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       });
     }
 
-    // Populate Family Selectors in Modals
-    function populateFamilySelects() {
+    // Populate Family and Aportante Selectors in Modals
+    function populateFamilySelects(targetFamId = null, targetPersonId = null) {
       const selects = [
         document.getElementById('select-persona-familia'),
         document.getElementById('select-aporte-familia'),
@@ -4857,12 +4970,41 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
 
       selects.forEach(sel => {
         if (!sel) return;
-        const currentVal = sel.value;
+        const currentVal = targetFamId || sel.value;
         sel.innerHTML = appState.familias.map(f => `
-          <option value="${f.id}">${f.nombre}</option>
+          <option value="${f.id}">Familia ${f.nombre}</option>
         `).join('');
         if (currentVal) sel.value = currentVal;
       });
+
+      // Populate select-aporte-persona with 11 nietos aportantes + general option
+      const selAportePerson = document.getElementById('select-aporte-persona');
+      if (selAportePerson) {
+        const famMap = {};
+        appState.familias.forEach(f => famMap[f.id] = f.nombre);
+        const totals = calculateTotals();
+
+        const aportantesOptions = (appState.aportantes || []).map(pid => {
+          const person = appState.asistentes.find(a => a.id === pid);
+          if (!person) return '';
+          const personCuota = getPersonCuota(person);
+          const abonado = totals.aportesPorPersona[pid] || 0;
+          const saldo = Math.max(0, personCuota - abonado);
+          const status = personCuota === 0 ? '' : (saldo <= 0 ? '✓ Al día' : `(Saldo: ${formatGs(saldo)})`);
+          return `<option value="${pid}" data-fam="${person.familia_id}" data-saldo="${saldo}" data-cuota="${personCuota}">${person.nombre} • Fam. ${famMap[person.familia_id] || ''} ${status}</option>`;
+        }).filter(Boolean).join('');
+
+        selAportePerson.innerHTML = `
+          <option value="">Aporte General de Familia (Sin nieto específico)</option>
+          <optgroup label="🎁 Nietos Aportantes (Cuota Gs. ${formatGs(totals.cuotaPorAportante)}):">
+            ${aportantesOptions}
+          </optgroup>
+        `;
+
+        if (targetPersonId) {
+          selAportePerson.value = targetPersonId;
+        }
+      }
 
       updateWhatsAppPreview();
     }
@@ -4955,8 +5097,9 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
           ${filteredAsistentes.map(a => {
             const isAp = appState.aportantes.includes(a.id);
             const famName = famMap[a.familia_id] || '';
+            const cuotaIndividual = getPersonCuota(a);
             const aporteIndividual = totals.aportesPorPersona[a.id] || 0;
-            const saldoIndividual = isAp ? (totals.cuotaPorAportante - aporteIndividual) : 0;
+            const saldoIndividual = isAp ? (cuotaIndividual - aporteIndividual) : 0;
 
             const cardBorder = isAp ? 'border-purple-300 bg-purple-50/20 shadow-apple-sm' : 'border-slate-200/80 bg-white';
             const toggleBg = isAp ? 'bg-purple-600 justify-end' : 'bg-slate-300 justify-start';
@@ -4992,8 +5135,8 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
                 ${isAp ? `
                   <div class="p-3 rounded-2xl bg-white border border-purple-100 text-xs space-y-1.5">
                     <div class="flex justify-between items-center text-[11px]">
-                      <span class="text-slate-500 font-medium">Cuota equitativa:</span>
-                      <span class="font-extrabold text-purple-900">${formatGs(totals.cuotaPorAportante)}</span>
+                      <span class="text-slate-500 font-medium">Cuota asignada:</span>
+                      <span class="font-extrabold text-purple-900">${formatGs(cuotaIndividual)}</span>
                     </div>
                     <div class="flex justify-between items-center text-[11px]">
                       <span class="text-slate-500 font-medium">Abonado hasta hoy:</span>
@@ -5007,9 +5150,12 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-end gap-2 pt-1 text-xs">
+                  <div class="flex flex-wrap items-center justify-end gap-2 pt-1 text-xs">
+                    <button type="button" class="btn-quick-record-aporte px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-all shadow-apple-sm flex items-center gap-1" data-person-id="${a.id}" data-fam-id="${a.familia_id}" title="Registrar aporte recibido para este nieto">
+                      <span>⚡ Registrar Aporte</span>
+                    </button>
                     <button type="button" class="btn-send-wa-cuota px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold text-[11px] transition-all flex items-center gap-1" data-person-id="${a.id}" data-person-name="${a.nombre}" data-fam-id="${a.familia_id}">
-                      <span>📱 WhatsApp con Cuota</span>
+                      <span>📱 WhatsApp Cuota</span>
                     </button>
                   </div>
                 ` : `
@@ -5041,6 +5187,15 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         });
       });
 
+      // Wire Direct Record Aporte from card
+      container.querySelectorAll('.btn-quick-record-aporte').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pid = btn.getAttribute('data-person-id');
+          const fid = btn.getAttribute('data-fam-id');
+          openAddAporteModal(fid, pid);
+        });
+      });
+
       // Wire WhatsApp reminders
       container.querySelectorAll('.btn-send-wa-cuota').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -5048,7 +5203,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
           const pName = btn.getAttribute('data-person-name');
           const fid = btn.getAttribute('data-fam-id');
           const link = `${window.location.origin}${window.location.pathname}?familia=${encodeURIComponent(fid)}`;
-          const msg = encodeURIComponent(`¡Hola, ${pName}! 🌴 Te comparto el enlace del Encuentro de Primos, Tíos y Agasajo a la Abuela en la Quinta el 1 de Enero de 2027. Tu cuota proporcional entre los nietos es de ${formatGs(totals.cuotaPorAportante)}. Podés ver los detalles y confirmar tu asistencia acá: ${link}`);
+          const msg = encodeURIComponent(`¡Hola, ${pName}! 🌴 Te comparto el enlace del Encuentro de Primos, Tíos y Agasajo a la Abuela en la Quinta el 1 de Enero de 2027. Tu cuota asignada en Supabase es de ${formatGs(getPersonCuota(appState.asistentes.find(x => x.id === pid)))}. Podés ver los detalles y confirmar tu asistencia acá: ${link}`);
           window.open(`https://wa.me/?text=${msg}`, '_blank');
         });
       });
@@ -5087,10 +5242,12 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       const famMembers = appState.asistentes.filter(a => a.familia_id === fam.id);
       const famAportantes = famMembers.filter(m => (appState.aportantes || []).includes(m.id));
       const aportado = totals.aportesPorFamilia[fam.id] || 0;
-      const cuota = famAportantes.length * totals.cuotaPorAportante;
+      const cuota = getFamilyCuota(fam);
       const saldo = cuota - aportado;
 
       document.getElementById('guest-welcome-title').textContent = `¡Hola, Familia ${fam.nombre}! 👋`;
+      const elActiveFamName = document.getElementById('guest-active-family-name');
+      if (elActiveFamName) elActiveFamName.textContent = `Familia ${fam.nombre}`;
       const confirmedCountInFam = famMembers.filter(a => a.confirmado === true).length;
       const shortcutSub = document.getElementById('guest-shortcut-confirm-sub');
       if (shortcutSub) {
@@ -5123,11 +5280,13 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
           (famMembers.some(m => (appState.aportantes || []).includes(m.id) && normalizeStr(m.nombre) === normalizeStr(currentUserSession?.name))) ||
           (isAdminSession && hasAportanteInFamily);
 
-        if (isUserAportante) {
+        if (isUserAportante || hasAportanteInFamily) {
           // Aportante Card
           const userPerson = famMembers.find(m => (appState.aportantes || []).includes(m.id) && (userPersonId === m.id || normalizeStr(m.nombre) === normalizeStr(currentUserSession?.name))) || famMembers.find(m => (appState.aportantes || []).includes(m.id));
+          const cuotaInd = userPerson ? getPersonCuota(userPerson) : (famAportantes.length > 0 ? Math.ceil(cuota / famAportantes.length) : cuota);
           const aporteInd = userPerson ? (totals.aportesPorPersona[userPerson.id] || 0) : 0;
-          const saldoInd = totals.cuotaPorAportante - aporteInd;
+          const saldoInd = cuotaInd - aporteInd;
+          const famApsList = famMembers.filter(m => (appState.aportantes || []).includes(m.id));
 
           finContainer.innerHTML = `
             <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-purple-200/90 space-y-4">
@@ -5148,7 +5307,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
               <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-2">
                 <div class="flex justify-between items-center text-xs">
                   <span class="text-slate-600 font-medium">Tu cuota proporcional asignada:</span>
-                  <span class="font-extrabold text-purple-900 text-base">${formatGs(totals.cuotaPorAportante)}</span>
+                  <span class="font-extrabold text-purple-900 text-base">${formatGs(cuotaInd)}</span>
                 </div>
                 <div class="flex justify-between items-center text-xs">
                   <span class="text-slate-600 font-medium">Monto ya transferido / abonado:</span>
@@ -6840,13 +6999,13 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         inputId.value = fam.id;
         inputNombre.value = fam.nombre;
         inputResp.value = fam.responsable || '';
-        inputCuota.value = fam.cuota_asignada || 286026;
+        inputCuota.value = fam.cuota_asignada || 0;
       } else {
         title.textContent = "Nueva Familia";
         inputId.value = '';
         inputNombre.value = '';
         inputResp.value = '';
-        inputCuota.value = 286026;
+        inputCuota.value = 0;
       }
       modal.classList.remove('hidden');
     }
@@ -7103,20 +7262,45 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
     }
 
     // Add Aporte
-    function openAddAporteModal(famId = null) {
+    function openAddAporteModal(famId = null, personId = null) {
       if (currentUserSession && currentUserSession.role !== 'admin') {
         showToast("Solo el administrador puede registrar aportes", true);
         return;
       }
       const modal = document.getElementById('modal-aporte');
+      const totals = calculateTotals();
+
+      populateFamilySelects(famId, personId);
+
       document.getElementById('input-aporte-id').value = '';
-      document.getElementById('input-aporte-monto').value = 280000;
       document.getElementById('input-aporte-fecha').value = new Date().toISOString().split('T')[0];
       document.getElementById('input-aporte-nota').value = '';
 
-      if (famId) {
-        document.getElementById('select-aporte-familia').value = famId;
+      const selPersona = document.getElementById('select-aporte-persona');
+      const selFam = document.getElementById('select-aporte-familia');
+      const inputMonto = document.getElementById('input-aporte-monto');
+      const lblRef = document.getElementById('label-aporte-cuota-ref');
+
+      if (personId && selPersona) {
+        selPersona.value = personId;
+        const p = appState.asistentes.find(a => a.id === personId);
+        if (p && selFam) selFam.value = p.familia_id;
+        const pCuota = getPersonCuota(p);
+        const abonado = totals.aportesPorPersona[personId] || 0;
+        const saldo = Math.max(0, pCuota - abonado);
+        inputMonto.value = saldo > 0 ? saldo : pCuota;
+        if (lblRef) lblRef.textContent = `Cuota: ${formatGs(pCuota)} | Saldo: ${formatGs(saldo)}`;
+      } else if (famId && selFam) {
+        selFam.value = famId;
+        const f = appState.familias.find(x => x.id === famId);
+        const fCuota = getFamilyCuota(f);
+        inputMonto.value = fCuota;
+        if (lblRef) lblRef.textContent = `Cuota Familia: ${formatGs(fCuota)}`;
+      } else {
+        inputMonto.value = totals.cuotaPorAportante;
+        if (lblRef) lblRef.textContent = `Cuota: ${formatGs(totals.cuotaPorAportante)}`;
       }
+
       modal.classList.remove('hidden');
     }
 
@@ -7931,7 +8115,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         const fid = document.getElementById('input-familia-id').value;
         const nombre = document.getElementById('input-familia-nombre').value.trim();
         const resp = document.getElementById('input-familia-responsable').value.trim();
-        const cuota = Number(document.getElementById('input-familia-cuota').value) || 286026;
+        const cuota = Number(document.getElementById('input-familia-cuota').value) || 0;
 
         let savedFam = null;
         if (fid) {
@@ -8067,7 +8251,15 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
 
       document.getElementById('form-aporte').addEventListener('submit', (e) => {
         e.preventDefault();
-        const famId = document.getElementById('select-aporte-familia').value;
+        const personaId = document.getElementById('select-aporte-persona')?.value || null;
+        let famId = document.getElementById('select-aporte-familia').value;
+
+        // Auto-resolve family from person if person selected
+        if (personaId) {
+          const p = appState.asistentes.find(a => a.id === personaId);
+          if (p) famId = p.familia_id;
+        }
+
         const monto = Number(document.getElementById('input-aporte-monto').value) || 0;
         const metodo = document.getElementById('select-aporte-metodo').value;
         const fecha = document.getElementById('input-aporte-fecha').value || new Date().toISOString().split('T')[0];
@@ -8075,6 +8267,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
 
         const newAporte = {
           id: 'ap_' + Date.now(),
+          persona_id: personaId,
           familia_id: famId,
           monto: monto,
           metodo: metodo,
@@ -8087,7 +8280,68 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
         autoSyncRecord('aportes', newAporte);
         renderAll();
         document.getElementById('modal-aporte').classList.add('hidden');
-        showToast("Aporte cargado y sincronizado");
+        showToast(`¡Aporte de ${formatGs(monto)} registrado correctamente!`);
+      });
+
+      // Wire quick calculation buttons in modal-aporte
+      document.getElementById('select-aporte-persona')?.addEventListener('change', (e) => {
+        const pid = e.target.value;
+        const totals = calculateTotals();
+        const selFam = document.getElementById('select-aporte-familia');
+        const inputMonto = document.getElementById('input-aporte-monto');
+        const lblRef = document.getElementById('label-aporte-cuota-ref');
+
+        if (pid) {
+          const p = appState.asistentes.find(a => a.id === pid);
+          if (p && selFam) selFam.value = p.familia_id;
+          const pCuota = getPersonCuota(p);
+          const totals = calculateTotals();
+          const abonado = totals.aportesPorPersona[pid] || 0;
+          const saldo = Math.max(0, pCuota - abonado);
+          if (inputMonto) inputMonto.value = saldo > 0 ? saldo : pCuota;
+          if (lblRef) lblRef.textContent = `Cuota: ${formatGs(pCuota)} | Saldo: ${formatGs(saldo)}`;
+        } else {
+          const fid = selFam ? selFam.value : null;
+          const f = appState.familias.find(x => x.id === fid);
+          const fCuota = getFamilyCuota(f);
+          if (inputMonto) inputMonto.value = fCuota;
+          if (lblRef) lblRef.textContent = `Cuota Familia: ${formatGs(fCuota)}`;
+        }
+      });
+
+      document.getElementById('btn-aporte-cuota-exacta')?.addEventListener('click', () => {
+        const pid = document.getElementById('select-aporte-persona')?.value;
+        const fid = document.getElementById('select-aporte-familia')?.value;
+        let c = 0;
+        if (pid) {
+          const p = appState.asistentes.find(a => a.id === pid);
+          c = getPersonCuota(p);
+        } else if (fid) {
+          const f = appState.familias.find(x => x.id === fid);
+          c = getFamilyCuota(f);
+        } else {
+          c = calculateTotals().cuotaPorAportante;
+        }
+        document.getElementById('input-aporte-monto').value = c;
+      });
+
+      document.getElementById('btn-aporte-saldo-exacto')?.addEventListener('click', () => {
+        const pid = document.getElementById('select-aporte-persona')?.value;
+        const fid = document.getElementById('select-aporte-familia')?.value;
+        const totals = calculateTotals();
+        let c = 0;
+        let abonado = 0;
+        if (pid) {
+          const p = appState.asistentes.find(a => a.id === pid);
+          c = getPersonCuota(p);
+          abonado = totals.aportesPorPersona[pid] || 0;
+        } else if (fid) {
+          const f = appState.familias.find(x => x.id === fid);
+          c = getFamilyCuota(f);
+          abonado = totals.aportesPorFamilia[fid] || 0;
+        }
+        const saldo = Math.max(0, c - abonado);
+        document.getElementById('input-aporte-monto').value = saldo > 0 ? saldo : c;
       });
 
       // 10. Sharing & WhatsApp Listeners

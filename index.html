@@ -7,8 +7,9 @@
   
   <!-- PWA Meta Tags & iOS Support -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Encuentro Familiar">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Encuentro 2027">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <meta name="theme-color" content="#f8fafc">
   
   <!-- Tailwind CSS -->
@@ -50,28 +51,57 @@
   </script>
 
   <style>
-    /* Smooth Apple-like transitions and scrollbar */
+    /* iPhone & iOS Safari Optimizations */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
     * {
       -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      box-sizing: border-box;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       letter-spacing: -0.011em;
+      padding-top: var(--sat);
+      padding-bottom: max(6rem, calc(var(--sab) + 5rem));
+      padding-left: var(--sal);
+      padding-right: var(--sar);
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+      touch-action: manipulation;
     }
     .glass-header {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      padding-top: max(0.75rem, var(--sat));
     }
     .glass-card {
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
+    /* Prevent iOS Safari auto-zoom on input focus (minimum 16px on mobile) */
+    @media screen and (max-width: 768px) {
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      input[type="url"],
+      input[type="date"],
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+    }
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
     .no-scrollbar {
+      -webkit-overflow-scrolling: touch;
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
@@ -179,6 +209,13 @@
             </button>
           </div>
         </div>
+
+        <!-- Live Sync & Clear Cache Button for iPhone -->
+        <div class="pt-2 text-center border-t border-slate-100">
+          <button type="button" id="btn-force-refresh-login" class="text-xs font-semibold text-slate-500 hover:text-blue-600 transition-all inline-flex items-center gap-1.5 p-1.5 rounded-xl hover:bg-slate-50">
+            <span>🔄</span> <span>Actualizar datos en vivo (Limpiar caché de iPhone)</span>
+          </button>
+        </div>
       </form>
       
     </div>
@@ -211,11 +248,12 @@
           
           <!-- Current Active User Badge & Cloud Sync Indicator -->
           <div class="flex items-center gap-2">
-            <!-- Cloud Auto-Sync Indicator -->
-            <span id="sync-status-indicator" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium text-slate-500 bg-slate-100/80 border border-slate-200/60" title="Sincronización automática con Supabase">
+            <!-- Cloud Auto-Sync Indicator & Manual Refresh Button for iPhone -->
+            <button type="button" id="btn-force-sync-header" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200/60 transition-all" title="Tocar para actualizar datos en vivo desde la nube">
               <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
               <span id="sync-status-label">Sincronizado</span>
-            </span>
+              <span class="text-[10px] text-slate-400">🔄</span>
+            </button>
 
             <span id="user-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -1668,6 +1706,12 @@
               <h2 id="guest-welcome-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
                 ¡Hola, Familia! 👋
               </h2>
+              <div class="flex items-center gap-2 pt-0.5">
+                <span id="guest-active-family-name" class="text-xs text-blue-200 font-semibold"></span>
+                <button type="button" id="btn-guest-change-family" class="text-[11px] font-bold text-amber-300 hover:text-amber-200 underline decoration-amber-300/60 transition-all">
+                  (¿No es tu familia? Cambiar ↺)
+                </button>
+              </div>
               <p class="text-xs sm:text-sm text-blue-100 max-w-xl leading-relaxed">
                 Nos preparamos para el gran día en la quinta: gran asado criollo, pileta libre, reencuentro de primos y tíos, y el homenaje central a nuestra querida abuela Angelina.
               </p>
@@ -2352,7 +2396,31 @@
   <!-- MODALS (APPLE STYLE DIALOGS)               -->
   <!-- ========================================== -->
 
-  <!-- Modal: Contraseña de Administrador (PIN Exclusivo para Jorge) -->
+    <!-- Modal: Disambiguation / Clarificación de Integrante o Familia -->
+  <div id="modal-disambiguation" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-apple-float border border-slate-100 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">¿Cuál de estos integrantes sos?</h3>
+          <p id="disambiguation-query-text" class="text-xs text-slate-500">Encontramos varias coincidencias</p>
+        </div>
+        <button id="btn-close-modal-disambiguation" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div id="disambiguation-candidates-list" class="flex-1 overflow-y-auto space-y-2 py-1 pr-1">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+        <span class="text-slate-400">Tocá tu nombre para entrar directo</span>
+        <button type="button" id="btn-cancel-disambiguation" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-semibold">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal: Contraseña de Administrador (PIN Exclusivo para Jorge) -->
   <div id="modal-admin-auth" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-apple-float border border-slate-100 space-y-5">
       
@@ -2420,6 +2488,13 @@
               Cancelar
             </button>
           </div>
+        </div>
+
+        <!-- Live Sync & Clear Cache Button for iPhone -->
+        <div class="pt-2 text-center border-t border-slate-100">
+          <button type="button" id="btn-force-refresh-login" class="text-xs font-semibold text-slate-500 hover:text-blue-600 transition-all inline-flex items-center gap-1.5 p-1.5 rounded-xl hover:bg-slate-50">
+            <span>🔄</span> <span>Actualizar datos en vivo (Limpiar caché de iPhone)</span>
+          </button>
         </div>
       </form>
 
@@ -2951,8 +3026,8 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
     }
 
     // Storage Keys
-    const STORAGE_KEY = 'encuentro_familiar_2027_state_v5';
-    const USER_SESSION_KEY = 'encuentro_familiar_user_session';
+    const STORAGE_KEY = 'encuentro_familiar_2027_state_v6';
+    const USER_SESSION_KEY = 'encuentro_familiar_user_session_v6';
 
     // Format Guaraníes currency
     function formatGs(amount) {
@@ -3151,24 +3226,34 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
     let currentUserSession = null; // { role: 'admin' | 'guest', name: string, familyId: string | null }
 
     function loadLocalState() {
-      try {
-        localStorage.removeItem('encuentro_familiar_2025_state');
-      } catch (e) {}
+      // Purge all legacy storage keys to prevent iPhone Safari stale cache pollution
+      const legacyKeys = [
+        'encuentro_familiar_2025_state',
+        'encuentro_familiar_2027_state',
+        'encuentro_familiar_2027_state_v2',
+        'encuentro_familiar_2027_state_v3',
+        'encuentro_familiar_2027_state_v4',
+        'encuentro_familiar_2027_state_v5',
+        'encuentro_familiar_user_session',
+        'encuentro_familiar_user_session_v5'
+      ];
+      legacyKeys.forEach(k => {
+        try { localStorage.removeItem(k); } catch(e){}
+      });
 
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored);
           if (parsed && Array.isArray(parsed.asistentes) && Array.isArray(parsed.familias)) {
-            if (!Array.isArray(parsed.gastos) || parsed.gastos.length === 0) {
+            // Integrity check on gastos: must have real items and costs
+            if (!Array.isArray(parsed.gastos) || parsed.gastos.length === 0 || !parsed.gastos.some(g => Number(g.costo_total || 0) > 0)) {
               parsed.gastos = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.gastos));
-            } else {
-              parsed.gastos = parsed.gastos;
             }
             parsed.aportes = parsed.aportes || [];
-            const oldFive = ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'];
-            const hasOldFiveOnly = Array.isArray(parsed.aportantes) && parsed.aportantes.length === 5 && oldFive.every(id => parsed.aportantes.includes(id));
-            if (!Array.isArray(parsed.aportantes) || parsed.aportantes.length === 0 || hasOldFiveOnly) {
+
+            // Integrity check on aportantes: must have the 11 active grandchildren organizers
+            if (!Array.isArray(parsed.aportantes) || parsed.aportantes.length < 11) {
               parsed.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
             }
             if (!Array.isArray(parsed.mural_abuela) || parsed.mural_abuela.length === 0) {
@@ -3189,6 +3274,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
               if (!a.estado_flujo) a.estado_flujo = 'pendiente';
               if (!a.rol) a.rol = 'Participante';
               if (!a.tareas) a.tareas = '';
+              a.es_aportante = (parsed.aportantes || []).includes(a.id);
             });
             return parsed;
           }
@@ -3202,6 +3288,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         a.estado_flujo = 'pendiente';
         a.rol = 'Participante';
         a.tareas = '';
+        a.es_aportante = fresh.aportantes.includes(a.id);
       });
       return fresh;
     }
@@ -3218,7 +3305,14 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       try {
         const stored = localStorage.getItem(USER_SESSION_KEY);
         if (stored) {
-          return JSON.parse(stored);
+          const sess = JSON.parse(stored);
+          // Validate that the session family exists in current families
+          if (sess && sess.familyId) {
+            const exists = (appState?.familias || []).some(f => f.id === sess.familyId);
+            if (exists) return sess;
+          } else if (sess && sess.role === 'admin') {
+            return sess;
+          }
         }
       } catch (e) {
         console.warn("Error reading user session:", e);
@@ -3237,6 +3331,19 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       } catch (e) {
         console.warn("Error saving user session:", e);
       }
+    }
+
+    // Force Live Sync & Clear Cache Function (iPhone & Web)
+    async function forceLiveSyncAndClearCache() {
+      updateSyncIndicator('syncing');
+      showToast("Actualizando datos en vivo desde la nube...");
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      appState = loadLocalState();
+      await syncFromSupabase(false);
+      renderAll();
+      showToast("✅ ¡Datos actualizados en vivo y caché renovado!");
     }
 
     // ========================================================
@@ -3422,12 +3529,19 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
           if (asis && asis.length > 0) {
             appState.asistentes = asis;
             const dbAportantes = asis.filter(a => a.es_aportante === true).map(a => a.id);
-            if (dbAportantes.length > 0) {
+            if (dbAportantes.length >= 11) {
               appState.aportantes = dbAportantes;
+            } else if (dbAportantes.length > 0 && (!appState.aportantes || appState.aportantes.length === 0)) {
+              appState.aportantes = dbAportantes;
+            } else if (!appState.aportantes || appState.aportantes.length < 11) {
+              appState.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
             }
           }
-          if (gas) {
+          // Do not wipe out expenses if cloud table is empty!
+          if (gas && gas.length > 0) {
             appState.gastos = gas;
+          } else if (!appState.gastos || appState.gastos.length === 0) {
+            appState.gastos = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.gastos));
           }
           if (apo) {
             appState.aportes = apo;
@@ -7067,79 +7181,167 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       if (modal) modal.classList.add('hidden');
     }
 
+    function selectAndLoginPerson(person) {
+      const fam = appState.familias.find(f => f.id === person.familia_id);
+      saveUserSession({
+        role: 'guest',
+        personId: person.id,
+        name: person.nombre,
+        familyId: person.familia_id,
+        familyName: fam ? fam.nombre : 'Familia'
+      });
+      showToast(`¡Hola, ${person.nombre}! (${fam ? 'Fam. ' + fam.nombre : ''})`);
+      applyUserSession();
+    }
+
+    function selectAndLoginFamily(family) {
+      saveUserSession({
+        role: 'guest',
+        name: `Familia ${family.nombre}`,
+        familyId: family.id,
+        familyName: family.nombre
+      });
+      showToast(`¡Bienvenidos, Familia ${family.nombre}!`);
+      applyUserSession();
+    }
+
+    function showDisambiguationModal(candidates, query) {
+      const modal = document.getElementById('modal-disambiguation');
+      const queryText = document.getElementById('disambiguation-query-text');
+      const list = document.getElementById('disambiguation-candidates-list');
+      if (!modal || !list) return;
+
+      queryText.textContent = `Buscaste "${query}". Tocá tu nombre exacto para ingresar:`;
+      const famMap = {};
+      appState.familias.forEach(f => famMap[f.id] = f.nombre);
+
+      list.innerHTML = candidates.map(c => `
+        <button type="button" class="btn-disambiguate-choice w-full p-3.5 rounded-2xl bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 text-left transition-all flex items-center justify-between gap-3 shadow-sm" data-person-id="${c.id}">
+          <div>
+            <span class="font-bold text-slate-900 block text-sm">${c.nombre}</span>
+            <span class="text-[11px] text-slate-500 font-medium">Familia ${famMap[c.familia_id] || ''} • ${c.categoria}</span>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold text-xs shadow-sm shrink-0">Entrar →</span>
+        </button>
+      `).join('');
+
+      list.querySelectorAll('.btn-disambiguate-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pid = btn.getAttribute('data-person-id');
+          const person = appState.asistentes.find(a => a.id === pid);
+          if (person) {
+            modal.classList.add('hidden');
+            selectAndLoginPerson(person);
+          }
+        });
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function showDisambiguationFamilyModal(candidates, query) {
+      const modal = document.getElementById('modal-disambiguation');
+      const queryText = document.getElementById('disambiguation-query-text');
+      const list = document.getElementById('disambiguation-candidates-list');
+      if (!modal || !list) return;
+
+      queryText.textContent = `Buscaste "${query}". Elegí tu grupo familiar:`;
+
+      list.innerHTML = candidates.map(f => `
+        <button type="button" class="btn-disambiguate-fam-choice w-full p-3.5 rounded-2xl bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 text-left transition-all flex items-center justify-between gap-3 shadow-sm" data-fam-id="${f.id}">
+          <div>
+            <span class="font-bold text-slate-900 block text-sm">Familia ${f.nombre}</span>
+            <span class="text-[11px] text-slate-500 font-medium">Responsable: ${f.responsable || 'A designar'}</span>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs shadow-sm shrink-0">Entrar →</span>
+        </button>
+      `).join('');
+
+      list.querySelectorAll('.btn-disambiguate-fam-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const fid = btn.getAttribute('data-fam-id');
+          const fam = appState.familias.find(x => x.id === fid);
+          if (fam) {
+            modal.classList.add('hidden');
+            selectAndLoginFamily(fam);
+          }
+        });
+      });
+
+      modal.classList.remove('hidden');
+    }
+
     function authenticateUser(inputName) {
       const raw = (inputName || '').trim();
       const norm = normalizeStr(raw);
 
       if (!norm) {
-        showToast("Por favor ingresá tu nombre", true);
+        showToast("Por favor ingresá tu nombre o elegí tu familia", true);
         return false;
       }
 
       // Check if Admin (Jorge Ramírez, Jorge, Admin) - Requires Admin Password
       const adminMatches = ['jorge', 'jorge ramirez', 'jorge armando', 'jorge armando ramirez', 'jorge armando ramirez paiva', 'admin', 'administrador'];
-      if (adminMatches.some(alias => norm.includes(alias))) {
+      if (adminMatches.some(alias => norm === alias || (alias.length > 5 && norm.includes(alias)))) {
         openAdminAuthModal();
         return false;
       }
 
-      // Check against registered asistentes
-      let matchedPerson = null;
-      for (const a of appState.asistentes) {
-        const normPerson = normalizeStr(a.nombre);
-        if (normPerson === norm || normPerson.includes(norm) || norm.includes(normPerson)) {
-          matchedPerson = a;
-          break;
-        }
-      }
-
-      if (matchedPerson) {
-        const fam = appState.familias.find(f => f.id === matchedPerson.familia_id);
-        saveUserSession({
-          role: 'guest',
-          personId: matchedPerson.id,
-          name: matchedPerson.nombre,
-          familyId: matchedPerson.familia_id,
-          familyName: fam ? fam.nombre : 'Familia'
-        });
-        showToast(`¡Hola, ${matchedPerson.nombre}! Accediendo a tu grupo familiar.`);
-        applyUserSession();
+      // 1. Exact match on person's full name
+      const exactPerson = appState.asistentes.find(a => normalizeStr(a.nombre) === norm);
+      if (exactPerson) {
+        selectAndLoginPerson(exactPerson);
         return true;
       }
 
-      // Check against registered familias
-      let matchedFamily = null;
-      for (const f of appState.familias) {
-        const normFam = normalizeStr(f.nombre);
-        if (normFam === norm || norm.includes(normFam) || normFam.includes(norm)) {
-          matchedFamily = f;
-          break;
-        }
-      }
-
-      if (matchedFamily) {
-        saveUserSession({
-          role: 'guest',
-          name: `Familia ${matchedFamily.nombre}`,
-          familyId: matchedFamily.id,
-          familyName: matchedFamily.nombre
-        });
-        showToast(`¡Hola, Familia ${matchedFamily.nombre}!`);
-        applyUserSession();
-        return true;
-      }
-
-      // If not strictly matched, assign them to the first available family or as general guest
-      const fallbackFam = appState.familias[0];
-      saveUserSession({
-        role: 'guest',
-        name: raw,
-        familyId: fallbackFam ? fallbackFam.id : null,
-        familyName: fallbackFam ? fallbackFam.nombre : 'Familia'
+      // 2. Exact match on family name (e.g. "Ramírez Benítez" or "Familia Ramírez Benítez")
+      const exactFamily = appState.familias.find(f => {
+        const fn = normalizeStr(f.nombre);
+        return fn === norm || `familia ${fn}` === norm;
       });
-      showToast(`¡Hola, ${raw}! Accediendo al evento.`);
-      applyUserSession();
-      return true;
+      if (exactFamily) {
+        selectAndLoginFamily(exactFamily);
+        return true;
+      }
+
+      // 3. Search multiple words across assistants (e.g. "Denis Cabral")
+      const words = norm.split(/\s+/).filter(w => w.length > 1);
+      const personCandidates = appState.asistentes.filter(a => {
+        const an = normalizeStr(a.nombre);
+        return words.every(w => an.includes(w)) || an.includes(norm);
+      });
+
+      if (personCandidates.length === 1) {
+        selectAndLoginPerson(personCandidates[0]);
+        return true;
+      } else if (personCandidates.length > 1) {
+        showDisambiguationModal(personCandidates, raw);
+        return false;
+      }
+
+      // 4. Search across families
+      const familyCandidates = appState.familias.filter(f => {
+        const fn = normalizeStr(f.nombre);
+        return words.every(w => fn.includes(w)) || fn.includes(norm);
+      });
+
+      if (familyCandidates.length === 1) {
+        selectAndLoginFamily(familyCandidates[0]);
+        return true;
+      } else if (familyCandidates.length > 1) {
+        showDisambiguationFamilyModal(familyCandidates, raw);
+        return false;
+      }
+
+      // 5. NO MATCH FOUND: Never blindly assign to appState.familias[0]!
+      showToast(`No encontramos a "${raw}". Por favor elegí tu familia en la lista de abajo 👇`, true);
+      const famSelect = document.getElementById('login-family-select');
+      if (famSelect) {
+        if (typeof famSelect.focus === "function") famSelect.focus();
+        famSelect.classList.add('ring-2', 'ring-blue-500');
+        setTimeout(() => famSelect.classList.remove('ring-2', 'ring-blue-500'), 3000);
+      }
+      return false;
     }
 
     function applyUserSession() {
@@ -7332,6 +7534,21 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
           document.getElementById('login-name-input').value = name;
           authenticateUser(name);
         });
+      });
+
+      // Live Sync & Clear Cache Listeners (Header & Login Card)
+      document.getElementById('btn-force-refresh-login')?.addEventListener('click', forceLiveSyncAndClearCache);
+      document.getElementById('btn-force-sync-header')?.addEventListener('click', forceLiveSyncAndClearCache);
+      document.getElementById('btn-guest-change-family')?.addEventListener('click', () => {
+        logoutUser();
+      });
+
+      // Disambiguation Modal Close Listeners
+      document.getElementById('btn-close-modal-disambiguation')?.addEventListener('click', () => {
+        document.getElementById('modal-disambiguation')?.classList.add('hidden');
+      });
+      document.getElementById('btn-cancel-disambiguation')?.addEventListener('click', () => {
+        document.getElementById('modal-disambiguation')?.classList.add('hidden');
       });
 
       // 3. Logout & Switch View

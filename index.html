@@ -447,40 +447,43 @@
               </div>
             </div>
 
-            <!-- Estado de Aportes por Familia -->
+            <!-- Cumplimiento de Aportes de Nietos -->
             <div class="bg-white rounded-3xl p-6 shadow-apple-sm border border-slate-200/70 flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between mb-4">
                   <div>
-                    <h3 class="font-bold text-slate-900 text-base">Cumplimiento de Aportes</h3>
-                    <p class="text-xs text-slate-500">Cuotas sugeridas por núcleo familiar</p>
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                      <h3 class="font-bold text-slate-900 text-base">Aportes de Nietos</h3>
+                    </div>
+                    <p class="text-xs text-slate-500">División equitativa del gasto total entre los aportantes</p>
                   </div>
-                  <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <span class="p-2 rounded-xl bg-purple-50 text-purple-600 font-bold text-xs">
+                    🎁 Agasajo
                   </span>
                 </div>
-                <div class="grid grid-cols-3 gap-2 text-center py-3 bg-slate-50 rounded-2xl border border-slate-100 mb-4">
+                <div class="grid grid-cols-3 gap-2 text-center py-3 bg-purple-50/50 rounded-2xl border border-purple-100 mb-4">
                   <div>
-                    <span id="stat-familias-completas" class="text-lg font-bold text-emerald-600 block">0</span>
-                    <span class="text-[11px] text-slate-500">Al Día</span>
+                    <span id="stat-familias-completas" class="text-lg font-extrabold text-emerald-600 block">0</span>
+                    <span class="text-[11px] text-slate-600 font-medium">Nietos Al Día</span>
                   </div>
                   <div>
-                    <span id="stat-familias-parciales" class="text-lg font-bold text-amber-500 block">0</span>
-                    <span class="text-[11px] text-slate-500">Con Saldo</span>
+                    <span id="stat-familias-parciales" class="text-lg font-extrabold text-amber-600 block">0</span>
+                    <span class="text-[11px] text-slate-600 font-medium">Con Saldo</span>
                   </div>
                   <div>
-                    <span id="stat-familias-superavit" class="text-lg font-bold text-blue-600 block">0</span>
-                    <span class="text-[11px] text-slate-500">A Favor</span>
+                    <span id="stat-familias-superavit" class="text-lg font-extrabold text-purple-700 block">0</span>
+                    <span class="text-[11px] text-slate-600 font-medium">Aportantes</span>
                   </div>
                 </div>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                  El encuentro en la quinta el 1 de enero de 2027 es un agasajo de los nietos para la abuela y la familia. Los gastos se dividen equitativamente entre los nietos aportantes.
+                  El encuentro en la quinta el 1 de enero de 2027 es un agasajo exclusivo de los nietos. Los padres y tíos asisten como Invitados de Honor sin cuotas; el presupuesto total se divide únicamente entre los nietos colaboradores.
                 </p>
               </div>
 
               <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-500">Cuota promedio estimada:</span>
-                <span id="stat-cuota-promedio" class="text-sm font-bold text-slate-900">Gs. 286.000 / familia</span>
+                <span class="text-xs font-semibold text-slate-500">Cuota exacta por nieto aportante:</span>
+                <span id="stat-cuota-promedio" class="text-sm font-extrabold text-purple-700">Gs. 0 / nieto</span>
               </div>
             </div>
           </div>
@@ -3069,7 +3072,7 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         { id: 'g_10', descripcion: "Vajilla Descartable, Servilletas & Vasos", categoria: "Varios", cantidad: 1, costo_total: 100000, total_abonado: 100000, observaciones: "Vasos térmicos, platos y cubiertos" }
       ],
       aportes: [],
-      aportantes: ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'],
+      aportantes: ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'],
       mural_abuela: [
         {
           id: 'card_abuela_jorge',
@@ -3163,8 +3166,10 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
               parsed.gastos = parsed.gastos;
             }
             parsed.aportes = parsed.aportes || [];
-            if (!Array.isArray(parsed.aportantes)) {
-              parsed.aportantes = ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'];
+            const oldFive = ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'];
+            const hasOldFiveOnly = Array.isArray(parsed.aportantes) && parsed.aportantes.length === 5 && oldFive.every(id => parsed.aportantes.includes(id));
+            if (!Array.isArray(parsed.aportantes) || parsed.aportantes.length === 0 || hasOldFiveOnly) {
+              parsed.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
             }
             if (!Array.isArray(parsed.mural_abuela) || parsed.mural_abuela.length === 0) {
               parsed.mural_abuela = JSON.parse(JSON.stringify(INITIAL_SEED_DATA.mural_abuela));
@@ -3481,12 +3486,13 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       const saldoGastoPendiente = Math.max(0, totalGastoPresupuestado - totalGastoAbonado);
       const pctEjecucionGastos = totalGastoPresupuestado > 0 ? Math.min(100, Math.round((totalGastoAbonado / totalGastoPresupuestado) * 100)) : 100;
 
-      // Ensure aportantes array exists
+      // Ensure aportantes array exists and defaults to 11 grandchildren organizers
       if (!Array.isArray(appState.aportantes)) {
-        appState.aportantes = ['a_6', 'a_15', 'a_16', 'a_31', 'a_32'];
+        appState.aportantes = ['a_4', 'a_5', 'a_6', 'a_9', 'a_15', 'a_16', 'a_17', 'a_23', 'a_28', 'a_31', 'a_32'];
       }
       const aportantesList = appState.aportantes;
       const aportantesCount = aportantesList.length;
+      // Formula principal: División equitativa del gasto total entre los aportantes
       const cuotaPorAportante = aportantesCount > 0 ? Math.ceil(totalGastoPresupuestado / aportantesCount) : 0;
 
       let totalAportado = 0;
@@ -3560,21 +3566,25 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       });
       const totalPersonas = (appState.asistentes || []).length;
 
-      let completas = 0;
-      let parciales = 0;
-      let superavit = 0;
+      // Estado de aportes de los nietos aportantes
+      let aportantesAlDia = 0;
+      let aportantesConSaldo = 0;
+      let aportantesSuperavit = 0;
 
-      (appState.familias || []).forEach(f => {
-        const aportado = aportesPorFamilia[f.id] || 0;
-        const cuota = Number(f.cuota_asignada || 286026);
-        const diff = cuota - aportado;
+      aportantesList.forEach(pid => {
+        const aportadoInd = aportesPorPersona[pid] || 0;
+        const diff = cuotaPorAportante - aportadoInd;
         if (diff <= 0) {
-          if (diff < -500) superavit++;
-          else completas++;
+          if (diff < -500) aportantesSuperavit++;
+          else aportantesAlDia++;
         } else {
-          parciales++;
+          aportantesConSaldo++;
         }
       });
+
+      let completas = aportantesAlDia + aportantesSuperavit;
+      let parciales = aportantesConSaldo;
+      let superavit = aportantesSuperavit;
 
       return {
         totalGastoPresupuestado,
@@ -3610,7 +3620,10 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
         presenciaPorFamilia,
         completas,
         parciales,
-        superavit
+        superavit,
+        aportantesAlDia,
+        aportantesConSaldo,
+        aportantesSuperavit
       };
     }
 
@@ -3623,11 +3636,19 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       const totals = calculateTotals();
 
       document.getElementById('kpi-recaudado').textContent = formatGs(totals.totalAportado);
-      document.getElementById('kpi-recaudado-sub').textContent = `${totals.aportantesCount} nietos aportantes`;
+      document.getElementById('kpi-recaudado-sub').textContent = totals.aportantesCount > 0 
+        ? `${totals.aportantesCount} nietos aportantes (${formatGs(totals.cuotaPorAportante)} c/u)` 
+        : 'Sin aportantes designados';
       const navBadgeAportantes = document.getElementById('badge-aportantes-nav');
       if (navBadgeAportantes) navBadgeAportantes.textContent = totals.aportantesCount;
 
       document.getElementById('kpi-gastos').textContent = formatGs(totals.totalGastoPresupuestado);
+      const kpiGastosSub = document.getElementById('kpi-gastos-sub');
+      if (kpiGastosSub) {
+        kpiGastosSub.textContent = totals.aportantesCount > 0 
+          ? `Dividido entre ${totals.aportantesCount} nietos` 
+          : 'Total compras y quinta';
+      }
       document.getElementById('kpi-saldo').textContent = formatGs(totals.saldoCajaDisponible);
       document.getElementById('kpi-personas').textContent = `${totals.totalPersonas} personas`;
 
@@ -3641,11 +3662,14 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       document.getElementById('kpi-porcentaje-cobertura').textContent = `${pct}% cubierto`;
       document.getElementById('kpi-progress-bar').style.width = `${pct}%`;
 
-      document.getElementById('stat-familias-completas').textContent = totals.completas;
-      document.getElementById('stat-familias-parciales').textContent = totals.parciales;
-      document.getElementById('stat-familias-superavit').textContent = totals.superavit;
+      const elCompletos = document.getElementById('stat-familias-completas');
+      if (elCompletos) elCompletos.textContent = totals.aportantesAlDia;
+      const elParciales = document.getElementById('stat-familias-parciales');
+      if (elParciales) elParciales.textContent = totals.aportantesConSaldo;
+      const elTotalAp = document.getElementById('stat-familias-superavit');
+      if (elTotalAp) elTotalAp.textContent = totals.aportantesCount;
       const statCuotaProm = document.getElementById('stat-cuota-promedio');
-      if (statCuotaProm) statCuotaProm.textContent = "Cuentas cerradas 🔒";
+      if (statCuotaProm) statCuotaProm.textContent = `${formatGs(totals.cuotaPorAportante)} / nieto`;
 
       const catTotals = {};
       appState.gastos.forEach(g => {
@@ -3762,17 +3786,23 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
       const matrixGrid = document.getElementById('family-matrix-grid');
       if (matrixGrid) {
         matrixGrid.innerHTML = appState.familias.map(f => {
+          const famAportantes = appState.asistentes.filter(a => a.familia_id === f.id && (appState.aportantes || []).includes(a.id));
           const aportado = totals.aportesPorFamilia[f.id] || 0;
-          const cuota = Number(f.cuota_asignada || 286026);
-          const saldo = cuota - aportado;
+          const cuotaFam = famAportantes.length * totals.cuotaPorAportante;
+          const saldo = cuotaFam - aportado;
           const pres = totals.presenciaPorFamilia[f.id] || { total: 0, en_predio: 0 };
 
           let colorBorder = 'border-slate-200/80';
           let badgeDot = 'bg-slate-400';
-          let statusText = 'Pendiente';
-          let badgeBg = 'bg-amber-50 text-amber-700 border-amber-200';
+          let statusText = 'Invitados';
+          let badgeBg = 'bg-slate-50 text-slate-700 border-slate-200';
 
-          if (saldo <= 0) {
+          if (famAportantes.length === 0) {
+            badgeDot = 'bg-amber-400';
+            statusText = 'De Honor (Gs. 0)';
+            badgeBg = 'bg-amber-50 text-amber-800 border-amber-200';
+            colorBorder = 'border-amber-200/60';
+          } else if (saldo <= 0) {
             if (saldo < -100) {
               badgeDot = 'bg-blue-500';
               statusText = 'A Favor';
@@ -3785,13 +3815,13 @@ CREATE POLICY "Acceso total anonimo evento" ON public.evento FOR ALL USING (true
               colorBorder = 'border-emerald-200/80';
             }
           } else {
-            badgeDot = 'bg-amber-500';
-            statusText = 'Con Saldo';
-            badgeBg = 'bg-amber-50 text-amber-700 border-amber-200';
-            colorBorder = 'border-amber-200/80';
+            badgeDot = 'bg-purple-500';
+            statusText = `${famAportantes.length} nieto(s) aport.`;
+            badgeBg = 'bg-purple-50 text-purple-700 border-purple-200';
+            colorBorder = 'border-purple-200/80';
           }
 
-          const pctPay = Math.min(100, Math.round((aportado / cuota) * 100));
+          const pctPay = cuotaFam > 0 ? Math.min(100, Math.round((aportado / cuotaFam) * 100)) : 100;
 
           return `
             <div class="p-3.5 rounded-2xl bg-white border ${colorBorder} shadow-sm space-y-2.5 transition-all hover:shadow-apple-sm">
@@ -4437,7 +4467,11 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       const kpiCuotaNieto = document.getElementById('kpi-gasto-header-cuota-nieto');
       if (kpiCuotaNieto) kpiCuotaNieto.textContent = formatGs(totals.cuotaPorAportante);
       const kpiCuotaNietoSub = document.getElementById('kpi-gasto-header-cuota-nieto-sub');
-      if (kpiCuotaNietoSub) kpiCuotaNietoSub.textContent = `Entre ${totals.aportantesCount} nietos aportantes`;
+      if (kpiCuotaNietoSub) {
+        kpiCuotaNietoSub.textContent = totals.aportantesCount > 0
+          ? `${formatGs(totals.totalGastoPresupuestado)} ÷ ${totals.aportantesCount} nietos`
+          : 'Sin aportantes designados';
+      }
 
       // 2. Update Navigation Badge
       const badgeNav = document.getElementById('badge-gastos-nav');
@@ -4767,7 +4801,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       const kpiCuotaSub = document.getElementById('kpi-division-cuota-sub');
       if (kpiCuotaSub) {
         kpiCuotaSub.textContent = totals.aportantesCount > 0 
-          ? `Dividido equitativamente entre los ${totals.aportantesCount} nietos`
+          ? `${formatGs(totals.totalGastoPresupuestado)} ÷ ${totals.aportantesCount} nietos aportantes`
           : "Designá nietos para calcular la cuota";
       }
 
@@ -4888,11 +4922,7 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
             autoSyncRecord('asistentes', person);
           }
           saveLocalState();
-          renderAportantesDivision(currentAportantesFilter, currentAportantesSearchTerm);
-          renderDashboard();
-          if (currentUserSession && currentUserSession.familyId) {
-            renderGuestView(currentUserSession.familyId);
-          }
+          renderAll();
           showToast(`${person ? person.nombre : 'Integrante'}: ${appState.aportantes.includes(pid) ? 'asignado como aportante' : 'marcado como invitado de honor'}`);
         });
       });
@@ -4940,8 +4970,10 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       if (!fam) return;
 
       const totals = calculateTotals();
+      const famMembers = appState.asistentes.filter(a => a.familia_id === fam.id);
+      const famAportantes = famMembers.filter(m => (appState.aportantes || []).includes(m.id));
       const aportado = totals.aportesPorFamilia[fam.id] || 0;
-      const cuota = Number(fam.cuota_asignada || 286026);
+      const cuota = famAportantes.length * totals.cuotaPorAportante;
       const saldo = cuota - aportado;
 
       document.getElementById('guest-welcome-title').textContent = `¡Hola, Familia ${fam.nombre}! 👋`;
@@ -4952,12 +4984,11 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
       }
       const heroRoleBadge = document.getElementById('guest-role-badge-hero');
       if (heroRoleBadge) {
-        const isAportanteFam = famMembers.some(m => (appState.aportantes || []).includes(m.id));
-        if (isAportanteFam) {
-          heroRoleBadge.textContent = "Nieto Aportante";
+        if (famAportantes.length > 0) {
+          heroRoleBadge.textContent = `${famAportantes.length} Nieto(s) Aportante(s)`;
           heroRoleBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-purple-400 text-purple-950";
         } else {
-          heroRoleBadge.textContent = "Invitados de Honor";
+          heroRoleBadge.textContent = "Invitados de Honor (Sin Cuota)";
           heroRoleBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950";
         }
       }
@@ -4968,7 +4999,6 @@ let currentFamiliasViewMode = 'familias'; // 'familias' | 'roles'
 
       // Render Dynamic Financial / Honorary Card inside Guest View
       const finContainer = document.getElementById('guest-financial-status-wrapper');
-      const famMembers = appState.asistentes.filter(a => a.familia_id === fam.id);
       if (finContainer) {
         const userPersonId = currentUserSession ? currentUserSession.personId : null;
         const isCurrentPersonAportante = userPersonId && (appState.aportantes || []).includes(userPersonId);
